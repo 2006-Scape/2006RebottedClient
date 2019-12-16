@@ -8,7 +8,7 @@ import javax.swing.*;
 
 public class BotMenuBar extends JMenuBar {
     private BotFrame botUI;
-    private JButton startButton, pauseButton, stopButton;
+    private static JButton startButton, pauseButton, stopButton;
     private JMenu file, scripts;
     private JMenuItem run, pause, stop;
 
@@ -45,11 +45,11 @@ public class BotMenuBar extends JMenuBar {
         file.add(exit);
 
 
-      /*  startButton = createNewButton(new ImageIcon(Images.getResource("/storage/images/run_button.png")), "Run Script", "Run", true);
+        startButton = createNewButton(new ImageIcon(getClass().getResource("/images/run_button.png")), "Run Script", "Run", true);
 
-        pauseButton = createNewButton(new ImageIcon(Images.getResource("/storage/images/pause_button.png")), "Pause Script", "Pause", false);
+        pauseButton = createNewButton(new ImageIcon(getClass().getResource("/images/pause_button.png")), "Pause Script", "Pause", false);
 
-        stopButton = createNewButton(new ImageIcon(Images.getResource("/storage/images/stop_button.png")), "Stop Script", "Stop", false);*/
+        stopButton = createNewButton(new ImageIcon(getClass().getResource("/images/stop_button.png")), "Stop Script", "Stop", false);
 
     }
 
@@ -77,41 +77,34 @@ public class BotMenuBar extends JMenuBar {
         add(file);
         add(scripts);
         add(Box.createHorizontalGlue());
-        /*add(startButton);
+        add(startButton);
         add(pauseButton);
-        add(stopButton);*/
+        add(stopButton);
 
+    }
+
+
+    public void setPausedButtons(boolean enabled) {
+        pause.setEnabled(enabled);
+        pauseButton.setEnabled(enabled);
+    }
+
+    public void setStopButtons(boolean enabled) {
+        stopButton.setEnabled(enabled);
+        stop.setEnabled(enabled);
+    }
+
+    public void setRunButtons(boolean enabled) {
+        run.setEnabled(enabled);
+        startButton.setEnabled(enabled);
     }
 
     public JMenu getFile() {
         return file;
     }
 
-    public JButton getStartButton() {
-        return startButton;
-    }
-
-    public JButton getPauseButton() {
-        return pauseButton;
-    }
-
-    public JButton getStopButton() {
-        return stopButton;
-    }
-
     public JMenu getScripts() {
         return scripts;
     }
 
-    public JMenuItem getRun() {
-        return run;
-    }
-
-    public JMenuItem getPause() {
-        return pause;
-    }
-
-    public JMenuItem getStop() {
-        return stop;
-    }
 }

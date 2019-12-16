@@ -1,7 +1,10 @@
 package org.rebotted.ui;
 
+import org.rebotted.Client;
 import org.rebotted.Configuration;
 import org.rebotted.GameApplet;
+import org.rebotted.script.ScriptHandler;
+import org.rebotted.script.types.Script;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,16 +15,19 @@ public final class BotFrame extends JFrame implements ActionListener  {
 
     private static final long serialVersionUID = 1L;
 
-    private final BotMenuBar botMenuBar;
-
-    public BotFrame(GameApplet applet, boolean resizable) {
+    private static BotMenuBar botMenuBar;
+    private final Client client;
+    private final ScriptUI scriptUI;
+    public BotFrame(Client client, boolean resizable) {
+        this.client = client;
+        final GameApplet applet = client;
         setTitle(Configuration.CLIENT_NAME);
         setResizable(resizable);
-        botMenuBar = new BotMenuBar(this);
+        BotFrame.botMenuBar = new BotMenuBar(this);
         setJMenuBar(botMenuBar);
         add(applet, BorderLayout.CENTER);
-        setMinimumSize(new Dimension(774, 559));
-        setSize(new Dimension(774, 559));
+        setMinimumSize(new Dimension(774, 567));
+        setSize(new Dimension(774, 567));
         pack();
         setLocationRelativeTo(getParent());
         setLocationRelativeTo(getOwner());
@@ -29,14 +35,46 @@ public final class BotFrame extends JFrame implements ActionListener  {
         requestFocus();
         toFront();
         applet.initClientFrame(766, 536);
+        scriptUI = new ScriptUI(client.getApiData());
         System.out.println("Client Launched.");
+    }
+
+    public static void setPaused() {
+        botMenuBar.setPausedButtons(false);
+        botMenuBar.setRunButtons(true);
+        botMenuBar.setStopButtons(true);
+    }
+
+    public static void setRunning() {
+        botMenuBar.setRunButtons(false);
+        botMenuBar.setPausedButtons(true);
+        botMenuBar.setStopButtons(true);
+    }
+
+    public static void setStopped() {
+        botMenuBar.setStopButtons(false);
+        botMenuBar.setPausedButtons(false);
+        botMenuBar.setRunButtons(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand().toLowerCase()) {
             case "run":
-                System.out.println("run was clicked..");
+                if(ScriptHandler.getInstance().getScriptState() == ScriptHandler.State.STOPPED) {
+                    scriptUI.show();
+                } else if(ScriptHandler.getInstance().getScriptState() == ScriptHandler.State.PAUSE) {
+                    ScriptHandler.getInstance().setScriptState(ScriptHandler.State.RUNNING);
+                    setRunning();
+                }
+                break;
+            case "pause":
+                setPaused();
+                ScriptHandler.getInstance().pause();
+                break;
+            case "stop":
+                setStopped();
+                ScriptHandler.getInstance().stop();
                 break;
         }
     }

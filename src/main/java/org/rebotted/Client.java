@@ -1,5 +1,10 @@
 package org.rebotted;
 
+import org.rebotted.archive.ASMClassLoader;
+import org.rebotted.archive.ClassArchive;
+import org.rebotted.bot.data.APIData;
+import org.rebotted.bot.data.RebottedAPI;
+import org.rebotted.bot.loader.APILoader;
 import org.rebotted.cache.FileArchive;
 import org.rebotted.cache.FileStore;
 import org.rebotted.cache.FileStore.Store;
@@ -547,6 +552,9 @@ public class Client extends GameApplet {
     private int anInt1285;
     private String selectedItemName;
     private int publicChatMode;
+    private ClassArchive classArchive;
+    private RebottedAPI api;
+    private APIData apiData;
     public Client() {
         xpAddedPos = xpCounter = expAdded = 0;
         fullscreenInterfaceID = -1;
@@ -883,29 +891,28 @@ public class Client extends GameApplet {
         ObjectDefinition.lowMemory = true;
     }
 
-
-
-    public static void main(String[] args) {
-            SwingUtilities.invokeLater(() -> {
-                try {
-                    JFrame.setDefaultLookAndFeelDecorated(true);
-                    JPopupMenu.setDefaultLightWeightPopupEnabled(false);
-                    ToolTipManager toolTipManager = ToolTipManager.sharedInstance();
-                    toolTipManager.setLightWeightPopupEnabled(false);
-                    UIManager.setLookAndFeel(new SubstanceDark());
-                    nodeID = 10;
-                    portOffset = 0;
-                    setHighMem();
-                    isMembers = true;
-                    SignLink.storeid = 32;
-                    SignLink.startpriv(InetAddress.getLocalHost());
-                    frameMode(ScreenMode.FIXED);
-                    instance = new Client();
-                    botFrame = new BotFrame(instance, false);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
+    public static void initFrame() {
+        try {
+            nodeID = 10;
+            portOffset = 0;
+            setHighMem();
+            isMembers = true;
+            SignLink.storeid = 32;
+            SignLink.startpriv(InetAddress.getLocalHost());
+            frameMode(Client.ScreenMode.FIXED);
+            instance = new Client();
+            System.out.println("Attempting to download latest bot API.");
+            final APILoader apiLoader = new APILoader(instance, "https://parabot-osrs.000webhostapp.com/RebottedAPI.jar");
+            if(apiLoader.getApiData() == null) {
+                System.err.println("There was a error downloading the API!");
+                System.exit(0);
+            }
+            instance.apiData = apiLoader.getApiData();
+            instance.api = apiLoader.getRebottedAPI();
+            botFrame = new BotFrame(instance, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void setTab(int id) {
@@ -13870,6 +13877,14 @@ public class Client extends GameApplet {
         }
         this.anInt1186 += i * 3;
         this.anInt1187 += (j << 1);
+    }
+
+    public RebottedAPI getApi() {
+        return api;
+    }
+
+    public APIData getApiData() {
+        return apiData;
     }
 
     public enum ScreenMode {
