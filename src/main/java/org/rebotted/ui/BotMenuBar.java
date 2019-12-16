@@ -9,7 +9,7 @@ import javax.swing.*;
 public class BotMenuBar extends JMenuBar {
     private BotFrame botUI;
     private JButton startButton, pauseButton, stopButton;
-    private JMenu features, file, scripts;
+    private JMenu file, scripts;
     private JMenuItem run, pause, stop;
 
     public BotMenuBar(BotFrame botUI) {
@@ -25,7 +25,6 @@ public class BotMenuBar extends JMenuBar {
     private void createMenu() {
 
         file = new JMenu("File");
-        features = new JMenu("Features");
         scripts = new JMenu("Script");
 
         final JMenuItem exit = new JMenuItem("Exit");
@@ -76,18 +75,12 @@ public class BotMenuBar extends JMenuBar {
     private void configureComponents() {
         removeAll();
         add(file);
-        add(features);
         add(scripts);
         add(Box.createHorizontalGlue());
         /*add(startButton);
         add(pauseButton);
         add(stopButton);*/
 
-    }
-
-
-    public JMenu getFeatures() {
-        return features;
     }
 
     public JMenu getFile() {

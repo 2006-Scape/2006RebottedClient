@@ -1,10 +1,7 @@
 package org.rebotted.cache.graphics;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
+import java.io.*;
 import org.apache.commons.compress.compressors.xz.XZCompressorInputStream;
-
 import org.rebotted.io.Buffer;
 import org.rebotted.sign.SignLink;
 import org.rebotted.util.FileUtils;
@@ -14,7 +11,7 @@ public final class SpriteCache {
 	private static Sprite[] sprites;
 
 	private static int totalSprites;
-
+	private static int i = 0;
 	public static void load() {
 		Buffer data = new Buffer(FileUtils.readFile(SignLink.findcachedir() + "main_file_sprites.dat"));
 
@@ -26,10 +23,9 @@ public final class SpriteCache {
 
 			for (int index = 0; index < totalSprites; index++) {
 				sprites[index] = SpriteCache.decode(dataFile);
-				
+
 				sprites[index].setTransparency(255, 0, 255);
 			}
-
 			System.out.println("Sprites Loaded: " + totalSprites);
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -72,25 +68,25 @@ public final class SpriteCache {
 			}
 		}
 	}
-	
+
 	public Sprite[] getSprites() {
 		return sprites;
 	}
-	
-	public static Sprite lookup(int id) {		
+
+	public static Sprite lookup(int id) {
 		if (id < 0 || id > sprites.length) {
 			throw new IllegalArgumentException(String.format("Invalid id: %d while trying to lookup a sprite.", id));
-		}		
+		}
 		return sprites[id];
 	}
-	
+
 	public static void set(int id, Sprite sprite) {
 		if (id < 0 || id > sprites.length) {
 			throw new IllegalArgumentException(String.format("Invalid id: %d while trying to lookup a sprite.", id));
-		}		
+		}
 		sprites[id] = sprite;
 	}
-	
+
 	public int totalSprites() {
 		return totalSprites;
 	}

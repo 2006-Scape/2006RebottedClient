@@ -70,7 +70,10 @@ public class GameApplet extends Applet implements Runnable, MouseListener,
     public void refreshFrameSize(boolean undecorated, int width, int height,
                                  boolean resizable, boolean full) {
         SwingUtilities.invokeLater(() -> {
-          Client.botFrame.setResizable(true);
+            if(!resizable) {
+                Client.botFrame.setSize(new Dimension(774, 559));
+            }
+            Client.botFrame.setResizable(resizable);
         });
     }
 
@@ -263,6 +266,8 @@ public class GameApplet extends Applet implements Runnable, MouseListener,
     public void mouseWheelMoved(MouseWheelEvent event) {
         int rotation = event.getWheelRotation();
         handleInterfaceScrolling(event);
+        final Rectangle viewport = new Rectangle(0, 0, 515,335);
+        final Point p = new Point(mouseX, mouseY);
         if (mouseX > 0 && mouseX < 512 && mouseY > Client.frameHeight - 165
                 && mouseY < Client.frameHeight - 25) {
             int scrollPos = Client.anInt1089;
@@ -274,6 +279,14 @@ public class GameApplet extends Applet implements Runnable, MouseListener,
             if (Client.anInt1089 != scrollPos) {
                 Client.anInt1089 = scrollPos;
                 Client.updateChatbox = true;
+            }
+        } else {
+            if(Client.loggedIn && viewport.contains(p)) {
+                if (Client.cameraZoom < 1800 && rotation == 1) {
+                    Client.cameraZoom = Client.cameraZoom + 20;
+                } else if (Client.cameraZoom > 20 && rotation == -1) {
+                    Client.cameraZoom = Client.cameraZoom - 20;
+                }
             }
         }
     }

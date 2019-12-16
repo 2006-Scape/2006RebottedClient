@@ -467,8 +467,8 @@ public final class Widget {
 		rsinterface.height = 20;
 		rsinterface.opacity = 0;
 		rsinterface.mOverInterToTrigger = 52;
-		rsinterface.disabledSprite = SpriteCache.lookup(disabledSpriteId);	
-		rsinterface.enabledSprite = SpriteCache.lookup(enabledSpriteId);		
+		rsinterface.disabledSprite = SpriteCache.lookup(disabledSpriteId);
+		rsinterface.enabledSprite = SpriteCache.lookup(enabledSpriteId);
 	}
 
 	public static void addText(int id, String text, GameFont wid[], int idx, int color) {
@@ -1180,7 +1180,7 @@ public final class Widget {
 		Tab.scripts[0][1] = configFrame;
 		Tab.scripts[0][2] = 0;
 		Tab.disabledSprite = SpriteCache.lookup(disabledSpriteId);
-		Tab.enabledSprite = SpriteCache.lookup(enabledSpriteId);		
+		Tab.enabledSprite = SpriteCache.lookup(enabledSpriteId);
 		Tab.tooltip = tT;
 	}
 
@@ -1464,7 +1464,7 @@ public final class Widget {
 		RSInterface.contentType = 0;
 		RSInterface.opacity = 0;
 		RSInterface.hoverType = 52;
-		RSInterface.disabledSprite = SpriteCache.lookup(spriteId);		
+		RSInterface.disabledSprite = SpriteCache.lookup(spriteId);
 		RSInterface.width = 500;
 		RSInterface.height = 500;
 		RSInterface.tooltip = "";
@@ -2016,8 +2016,8 @@ public final class Widget {
 		hover.contentType = 0;
 		hover.opacity = 0;
 		hover.hoverType = hoverid;
-		hover.disabledSprite = SpriteCache.lookup(disabledSpriteId);	
-		hover.enabledSprite = SpriteCache.lookup(enabledSpriteId);		
+		hover.disabledSprite = SpriteCache.lookup(disabledSpriteId);
+		hover.enabledSprite = SpriteCache.lookup(enabledSpriteId);
 		hover.width = Width;
 		hover.tooltip = Tooltip;
 		hover.height = Height;
@@ -2064,7 +2064,7 @@ public final class Widget {
 		Tab.scripts[0][0] = 5;
 		Tab.scripts[0][1] = configFrame;
 		Tab.scripts[0][2] = 0;
-		Tab.disabledSprite = SpriteCache.lookup(disabledSpriteId);	
+		Tab.disabledSprite = SpriteCache.lookup(disabledSpriteId);
 		Tab.enabledSprite = SpriteCache.lookup(enabledSpriteId);
 	}
 

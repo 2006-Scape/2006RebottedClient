@@ -2906,20 +2906,22 @@ public class Client extends GameApplet {
 
     public void drawSideIcons() {
 
-        // local variables will not stay in memory which will help with
-        // performance.
-        final int[] sideIconsX = {17, 49, 83, 114, 146, 180, 214, 16, 49, 82, 116, 148, 184, 216},
-                sideIconsY = {9, 7, 7, 5, 2, 3, 7, 303, 306, 306, 302, 305, 303, 303, 303},
-                sideIconsId = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13},
-                sideIconsTab = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
-
         int xOffset = frameMode == ScreenMode.FIXED ? 0 : frameWidth - 247;
         int yOffset = frameMode == ScreenMode.FIXED ? 0 : frameHeight - 336;
+        int[] x;
+        int[] y;
+        if(frameMode == ScreenMode.FIXED && !Configuration.OSRS_GAMEFRAME) {
+            x = GameFrameIds.REDONE_ICONS_X;
+            y = GameFrameIds.REDONE_ICONS_Y;
+        } else {
+            x = GameFrameIds.OSRS_ICONS_X;
+            y = GameFrameIds.OSRS_ICONS_Y;
+        }
         if (frameMode == ScreenMode.FIXED || frameMode != ScreenMode.FIXED && !changeTabArea) {
-            for (int i = 0; i < sideIconsTab.length; i++) {
-                if (tabInterfaceIDs[sideIconsTab[i]] != -1) {
-                    if (sideIconsId[i] != -1) {
-                        sideIcons[sideIconsId[i]].drawSprite(sideIconsX[i] + xOffset, sideIconsY[i] + yOffset);
+            for (int i = 0; i < GameFrameIds.SIDE_ICONS_ID.length; i++) {
+                if (tabInterfaceIDs[GameFrameIds.SIDE_ICONS_ID[i]] != -1) {
+                    if (GameFrameIds.SIDE_ICONS_ID[i] != -1) {
+                        sideIcons[GameFrameIds.SIDE_ICONS_ID[i]].drawSprite(x[i] + xOffset, y[i] + yOffset);
                     }
                 }
             }
@@ -2927,8 +2929,8 @@ public class Client extends GameApplet {
             int[] iconId = {0, 1, 2, 3, 4, 5, 6, -1, 8, 9, 7, 11, 12, 13};
             int[] iconX = {219, 189, 156, 126, 93, 62, 30, 219, 189, 156, 124, 92, 59, 28};
             int[] iconY = {67, 69, 67, 69, 72, 72, 69, 32, 29, 29, 32, 30, 33, 31, 32};
-            for (int i = 0; i < sideIconsTab.length; i++) {
-                if (tabInterfaceIDs[sideIconsTab[i]] != -1) {
+            for (int i = 0; i < GameFrameIds.SIDE_ICONS_ID.length; i++) {
+                if (tabInterfaceIDs[GameFrameIds.SIDE_ICONS_ID[i]] != -1) {
                     if (iconId[i] != -1) {
                         sideIcons[iconId[i]].drawSprite(frameWidth - iconX[i], frameHeight - iconY[i]);
                     }
@@ -2938,8 +2940,8 @@ public class Client extends GameApplet {
             int[] iconId = {0, 1, 2, 3, 4, 5, 6, -1, 8, 9, 7, 11, 12, 13};
             int[] iconX = {50, 80, 114, 143, 176, 208, 240, 242, 273, 306, 338, 370, 404, 433};
             int[] iconY = {30, 32, 30, 32, 34, 34, 32, 32, 29, 29, 32, 31, 32, 32, 32};
-            for (int i = 0; i < sideIconsTab.length; i++) {
-                if (tabInterfaceIDs[sideIconsTab[i]] != -1) {
+            for (int i = 0; i < GameFrameIds.SIDE_ICONS_ID.length; i++) {
+                if (tabInterfaceIDs[GameFrameIds.SIDE_ICONS_ID[i]] != -1) {
                     if (iconId[i] != -1) {
                         sideIcons[iconId[i]].drawSprite(frameWidth - 461 + iconX[i], frameHeight - iconY[i]);
                     }
@@ -2950,16 +2952,24 @@ public class Client extends GameApplet {
 
     private void drawRedStones() {
 
-        final int[] redStonesX = {6, 44, 77, 110, 143, 176, 209, 6, 44, 77, 110, 143, 176, 209},
-                redStonesY = {0, 0, 0, 0, 0, 0, 0, 298, 298, 298, 298, 298, 298, 298},
-                redStonesId = {35, 39, 39, 39, 39, 39, 36, 37, 39, 39, 39, 39, 39, 38};
-
         int xOffset = frameMode == ScreenMode.FIXED ? 0 : frameWidth - 247;
         int yOffset = frameMode == ScreenMode.FIXED ? 0 : frameHeight - 336;
+        int[] stones;
+        int[] x;
+        int[] y;
+        if(frameMode == ScreenMode.FIXED && !Configuration.OSRS_GAMEFRAME) {
+            stones = GameFrameIds.REDONE_STONES_IDS;
+            x = GameFrameIds.REDONE_STONES_X;
+            y = GameFrameIds.REDONE_STONES_Y;
+        } else {
+            stones = GameFrameIds.OSRS_STONES_IDS;
+            x = GameFrameIds.OSRS_STONES_X;
+            y = GameFrameIds.OSRS_STONES_Y;
+        }
         if (frameMode == ScreenMode.FIXED || frameMode != ScreenMode.FIXED && !changeTabArea) {
             if (tabInterfaceIDs[tabId] != -1 && tabId != 15) {
-                SpriteCache.lookup(redStonesId[tabId]).drawSprite(redStonesX[tabId] + xOffset,
-                        redStonesY[tabId] + yOffset);
+                SpriteCache.lookup(stones[tabId]).drawSprite(x[tabId] + xOffset,
+                        y[tabId] + yOffset);
             }
         } else if (changeTabArea && frameWidth < 1000) {
             int[] stoneX = {226, 194, 162, 130, 99, 65, 34, 219, 195, 161, 130, 98, 65, 33};
@@ -2985,12 +2995,18 @@ public class Client extends GameApplet {
             tabImageProducer.initDrawingArea();
         }
         Rasterizer3D.scanOffsets = anIntArray1181;
+        final int fixedInventory;
+        if(Configuration.OSRS_GAMEFRAME) {
+            fixedInventory = GameFrameIds.OSRS_INVENTORY;
+        } else {
+            fixedInventory = GameFrameIds.REDONE_INVENTORY;
+        }
         if (frameMode == ScreenMode.FIXED) {
-            SpriteCache.lookup(21).drawSprite(0, 0);
+            SpriteCache.lookup(fixedInventory).drawSprite(0, 0);
         } else if (frameMode != ScreenMode.FIXED && !changeTabArea) {
             Rasterizer2D.drawTransparentBox(frameWidth - 217, frameHeight - 304, 195, 270, 0x3E3529,
                     transparentTabArea ? 80 : 256);
-            SpriteCache.lookup(47).drawSprite(xOffset, yOffset);
+            SpriteCache.lookup(GameFrameIds.OSRS_INVENTORY_2).drawSprite(xOffset, yOffset);
         } else {
             if (frameWidth >= 1000) {
                 if (showTabComponents) {
@@ -6551,6 +6567,19 @@ public class Client extends GameApplet {
                             frameMode(ScreenMode.FIXED);
                         }
 
+                        if (inputString.equals("::osrs")) {
+                            Configuration.OSRS_GAMEFRAME = true;
+                            drawRedStones();
+                            drawSideIcons();
+                            drawTabArea();
+                        }
+                        if (inputString.equals("::06")) {
+                            Configuration.OSRS_GAMEFRAME = false;
+                            drawRedStones();
+                            drawSideIcons();
+                            drawTabArea();
+                        }
+
                         if (inputString.equals("::resize")) {
                             frameMode(ScreenMode.RESIZABLE);
                         }
@@ -7964,6 +7993,7 @@ public class Client extends GameApplet {
                 return;
             }
             if (response == 2) {
+                botFrame.setTitle(Configuration.CLIENT_NAME + " - ["+StringUtils.capitalizeEachWord(myUsername)+"]");
                 myPrivilege = socketStream.read();
                 flagged = socketStream.read() == 1;
                 aLong1220 = 0L;
@@ -13703,7 +13733,7 @@ public class Client extends GameApplet {
             menuActionRow = 2;
         }
         if (hpHover && Configuration.enableOrbs) {
-            menuActionText[1] = Configuration.hpAboveHeads ? "Turn HP Above Heads on" : "Turn HP Above heads off";
+            menuActionText[1] = Configuration.hpAboveHeads ? "Turn HP Above Heads on" : "Turn HP Above Heads off";
             menuActionTypes[1] = 1508;
             menuActionRow = 2;
         }

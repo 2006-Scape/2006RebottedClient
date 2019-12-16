@@ -22,7 +22,8 @@ public final class Sprite extends Rasterizer2D {
 	private int offsetY;	
 	private int maxWidth;
 	private int maxHeight;
-	
+	private byte[] spriteData;
+
 	public Sprite() {
 		
 	}
@@ -41,7 +42,7 @@ public final class Sprite extends Rasterizer2D {
   	  this.maxHeight = height;
   	  offsetX = 0;
   	  offsetY = 0;
-  	  
+  	  setSpriteData(sprite.getSpriteData());
   	  myPixels = new int[width * height];
   	  
   	  System.arraycopy(sprite.myPixels, 0, myPixels, 0, myPixels.length);    	  
@@ -59,6 +60,7 @@ public final class Sprite extends Rasterizer2D {
 			maxHeight = myHeight;
 			offsetX = 0;
 			offsetY = 0;
+			spriteData = data;
 			myPixels = new int[myWidth * myHeight];
 			PixelGrabber pixelgrabber = new PixelGrabber(image, 0, 0, myWidth, myHeight, myPixels, 0, myWidth);
 			pixelgrabber.grabPixels();
@@ -941,4 +943,11 @@ public final class Sprite extends Rasterizer2D {
 		this.maxHeight = maxHeight;
 	}
 
+	public byte[] getSpriteData() {
+		return spriteData;
+	}
+
+	public void setSpriteData(byte[] spriteData) {
+		this.spriteData = spriteData;
+	}
 }
