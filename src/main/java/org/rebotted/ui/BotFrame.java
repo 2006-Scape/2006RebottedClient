@@ -33,6 +33,8 @@ public final class BotFrame extends JFrame implements ActionListener  {
         setLocationRelativeTo(getParent());
         setLocationRelativeTo(getOwner());
         setVisible(true);
+        requestFocus();
+        toFront();
         applet.initClientFrame(766, 536);
         System.out.println("Client Launched.");
     }

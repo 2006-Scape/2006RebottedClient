@@ -10,7 +10,7 @@ public class BotMenuBar extends JMenuBar {
     private BotFrame botUI;
     private JButton startButton, pauseButton, stopButton;
     private JMenu features, file, scripts;
-    private JMenuItem cacheClear, notifications, run, pause, stop;
+    private JMenuItem run, pause, stop;
 
     public BotMenuBar(BotFrame botUI) {
         this.botUI = botUI;
@@ -28,14 +28,7 @@ public class BotMenuBar extends JMenuBar {
         features = new JMenu("Features");
         scripts = new JMenu("Script");
 
-        JMenuItem screenshot = new JMenuItem("Create screenshot");
-        JMenuItem proxy = new JMenuItem("Network");
-        JMenuItem randoms = new JMenuItem("Randoms");
-        JMenuItem dialog = new JCheckBoxMenuItem("Disable dialog");
-        JMenuItem logger = new JCheckBoxMenuItem("Logger");
-
-        JMenuItem explorer = new JMenuItem("Reflection explorer");
-        JMenuItem exit = new JMenuItem("Exit");
+        final JMenuItem exit = new JMenuItem("Exit");
 
 
         run = createNewJMenuItem( "Run", true);
@@ -44,37 +37,13 @@ public class BotMenuBar extends JMenuBar {
 
         stop = createNewJMenuItem("Stop", false);
 
-        cacheClear = new JMenuItem("Clear cache");
-        //cacheClear.setIcon(new ImageIcon(Images.getResource("/storage/images/trash.png")));
-
-        notifications = new JMenuItem("Notifications");
-        //notifications.setIcon(new ImageIcon(Images.getResource("/storage/images/bell.png")));
-
-
-        screenshot.addActionListener(botUI);
-        proxy.addActionListener(botUI);
-        randoms.addActionListener(botUI);
-        dialog.addActionListener(botUI);
-        logger.addActionListener(botUI);
-        explorer.addActionListener(botUI);
         exit.addActionListener(botUI);
-        cacheClear.addActionListener(botUI);
-        notifications.addActionListener(botUI);
 
         scripts.add(run);
         scripts.add(pause);
         scripts.add(stop);
 
-        file.add(screenshot);
-        file.add(proxy);
-        file.add(randoms);
-        file.add(dialog);
-        file.add(logger);
-        file.add(explorer);
         file.add(exit);
-
-        features.add(cacheClear);
-        features.add(notifications);
 
 
       /*  startButton = createNewButton(new ImageIcon(Images.getResource("/storage/images/run_button.png")), "Run Script", "Run", true);
@@ -123,14 +92,6 @@ public class BotMenuBar extends JMenuBar {
 
     public JMenu getFile() {
         return file;
-    }
-
-    public JMenuItem getCacheClear() {
-        return cacheClear;
-    }
-
-    public JMenuItem getNotifications() {
-        return notifications;
     }
 
     public JButton getStartButton() {
