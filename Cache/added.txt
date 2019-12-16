@@ -1,0 +1,10 @@
+#149 item defs
+#149 npc defs
+#149 object defs
+#149 varbits
+#149 gfx
+#149 models
+#149 anims
+#149 maps
+#149 idk
+- Freyr
