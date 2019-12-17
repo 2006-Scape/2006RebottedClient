@@ -4,8 +4,9 @@ import org.rebotted.Client;
 import org.rebotted.Configuration;
 import org.rebotted.GameApplet;
 import org.rebotted.script.ScriptHandler;
+import org.rebotted.script.loader.ScriptLoader;
 import org.rebotted.ui.menu.BotMenuBar;
-import org.rebotted.ui.script.ScriptUI;
+import org.rebotted.ui.script.ScriptSelector;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +19,6 @@ public final class BotFrame extends JFrame implements ActionListener {
 
     private static BotMenuBar botMenuBar;
     private final Client client;
-    private final ScriptUI scriptUI;
 
     public BotFrame(Client client, boolean resizable) {
         this.client = client;
@@ -38,7 +38,6 @@ public final class BotFrame extends JFrame implements ActionListener {
         requestFocus();
         toFront();
         applet.initClientFrame(766, 536);
-        scriptUI = new ScriptUI(client.getApiData());
         System.out.println("Client Launched.");
     }
 
@@ -65,7 +64,7 @@ public final class BotFrame extends JFrame implements ActionListener {
         switch (e.getActionCommand().toLowerCase()) {
             case "run":
                 if (ScriptHandler.getInstance().getScriptState() == ScriptHandler.State.STOPPED) {
-                    scriptUI.show();
+                    new ScriptSelector(new ScriptLoader(client.getApiData()));
                 } else if (ScriptHandler.getInstance().getScriptState() == ScriptHandler.State.PAUSE) {
                     ScriptHandler.getInstance().setScriptState(ScriptHandler.State.RUNNING);
                     setRunning();

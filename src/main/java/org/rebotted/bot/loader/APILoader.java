@@ -1,7 +1,7 @@
 package org.rebotted.bot.loader;
 
-import jdk.internal.org.objectweb.asm.tree.AnnotationNode;
-import jdk.internal.org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.AnnotationNode;
+import org.objectweb.asm.tree.ClassNode;
 import org.rebotted.Client;
 import org.rebotted.archive.ASMClassLoader;
 import org.rebotted.archive.ClassArchive;

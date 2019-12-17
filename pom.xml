@@ -13,6 +13,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
+
     <dependencies>
         <dependency>
             <groupId>com.github.insubstantial</groupId>
@@ -33,6 +34,18 @@
             <groupId>org.tukaani</groupId>
             <artifactId>xz</artifactId>
             <version>1.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>7.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm-tree</artifactId>
+            <version>7.2</version>
         </dependency>
 
     </dependencies>

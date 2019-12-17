@@ -1,8 +1,8 @@
 package org.rebotted.archive;
 
-import jdk.internal.org.objectweb.asm.ClassReader;
-import jdk.internal.org.objectweb.asm.ClassWriter;
-import jdk.internal.org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.tree.ClassNode;
 import org.rebotted.directory.DirectoryManager;
 
 import java.io.*;
