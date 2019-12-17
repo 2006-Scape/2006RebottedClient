@@ -64,7 +64,7 @@ public final class BotFrame extends JFrame implements ActionListener {
         switch (e.getActionCommand().toLowerCase()) {
             case "run":
                 if (ScriptHandler.getInstance().getScriptState() == ScriptHandler.State.STOPPED) {
-                    new ScriptSelector(new ScriptLoader(client.getApiData()));
+                    new ScriptSelector(new ScriptLoader(client.getApiData())).setVisible(true);
                 } else if (ScriptHandler.getInstance().getScriptState() == ScriptHandler.State.PAUSE) {
                     ScriptHandler.getInstance().setScriptState(ScriptHandler.State.RUNNING);
                     setRunning();

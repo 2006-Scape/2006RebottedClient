@@ -6316,7 +6316,6 @@ public class Client extends GameApplet {
         ObjectDefinition.clear();
         NpcDefinition.clear();
         ItemDefinition.clear();
-        FloorDefinition.underlays = null;
         FloorDefinition.overlays = null;
         IdentityKit.kits = null;
         Widget.interfaceCache = null;
@@ -7936,6 +7935,16 @@ public class Client extends GameApplet {
     private void login(String name, String password, boolean reconnecting) {
         SignLink.setError(name);
         try {
+            if(name.length() < 3) {
+                firstLoginMessage = "";
+                secondLoginMessage = "Your username is too short.";
+                return;
+            }
+            if(password.length() < 3) {
+                firstLoginMessage = "";
+                secondLoginMessage = "Your password is too short.";
+                return;
+            }
             if (!reconnecting) {
                 firstLoginMessage = "";
                 secondLoginMessage = "Connecting to server...";

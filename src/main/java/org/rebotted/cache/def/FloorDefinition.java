@@ -3,12 +3,12 @@ package org.rebotted.cache.def;
 import java.nio.ByteBuffer;
 
 import org.rebotted.cache.FileArchive;
+import org.rebotted.io.Buffer;
 
 
 public class FloorDefinition {
 
     public static FloorDefinition[] overlays;
-    public static FloorDefinition[] underlays;
 
     public int texture;
     public int rgb;
@@ -33,26 +33,17 @@ public class FloorDefinition {
     }
 
     public static void unpackConfig(FileArchive streamLoader) {
-        ByteBuffer buffer = ByteBuffer.wrap(streamLoader.readFile("flo.dat"));
-        int underlayAmount = buffer.getShort();
+        Buffer buffer = new Buffer(streamLoader.readFile("flo.dat"));
+        int underlayAmount = buffer.readUShort();
         System.out.println("Underlay Floors Loaded: "+underlayAmount);
-        underlays = new FloorDefinition[underlayAmount];
-        for (int i = 0; i < underlayAmount; i++) {
-            if (underlays[i] == null) {
-                underlays[i] = new FloorDefinition();
-            }
-            underlays[i].readValuesUnderlay(buffer);
-            underlays[i].generateHsl();
+        if(overlays == null) {
+            overlays = new FloorDefinition[underlayAmount];
         }
-        int overlayAmount = buffer.getShort();
-        System.out.println("Overlay Floors Loaded: "+overlayAmount);
-        overlays = new FloorDefinition[overlayAmount];
-        for (int i = 0; i < overlayAmount; i++) {
+        for (int i = 0; i < underlayAmount; i++) {
             if (overlays[i] == null) {
                 overlays[i] = new FloorDefinition();
             }
             overlays[i].readValuesOverlay(buffer);
-            overlays[i].generateHsl();
         }
     }
 
@@ -66,32 +57,25 @@ public class FloorDefinition {
         rgbToHsl(rgb);
     }
 
-    private void readValuesUnderlay(ByteBuffer buffer) {
+    private void readValuesOverlay(Buffer buffer) {
         for (;;) {
-            int opcode = buffer.get();
+            int opcode = buffer.readUnsignedByte();
             if (opcode == 0) {
                 break;
             } else if (opcode == 1) {
-                rgb = ((buffer.get() & 0xff) << 16) + ((buffer.get() & 0xff) << 8) + (buffer.get() & 0xff);
-            } else {
-                System.out.println("Error unrecognised underlay code: " + opcode);
-            }
-        }
-    }
-
-    private void readValuesOverlay(ByteBuffer buffer) {
-        for (;;) {
-            int opcode = buffer.get();
-            if (opcode == 0) {
-                break;
-            } else if (opcode == 1) {
-                rgb = ((buffer.get() & 0xff) << 16) + ((buffer.get() & 0xff) << 8) + (buffer.get() & 0xff);
+                rgb = buffer.read3Bytes();
+                rgbToHsl(rgb);
             } else if (opcode == 2) {
-                texture = buffer.get() & 0xff;
+                texture = buffer.readUnsignedByte();
+            } else if (opcode == 3) {
+
             } else if (opcode == 5) {
                 occlude = false;
+            } else if(opcode == 6) {
+                buffer.readString();
             } else if (opcode == 7) {
-                anotherRgb = ((buffer.get() & 0xff) << 16) + ((buffer.get() & 0xff) << 8) + (buffer.get() & 0xff);
+                anotherRgb = buffer.read3Bytes();
+                rgbToHsl(anotherRgb);
             } else {
                 System.out.println("Error unrecognised overlay code: " + opcode);
             }

@@ -120,10 +120,7 @@ public final class MapRegion {
 					if (k9 >= 0 && k9 < regionSizeX) {
 						int l12 = underlays[z][k9][i8] & 0xff;
 						if (l12 > 0) {
-							if (l12 > FloorDefinition.underlays.length) {
-								l12 = FloorDefinition.underlays.length;
-							}
-							FloorDefinition flo = FloorDefinition.underlays[l12 - 1];
+							FloorDefinition flo = FloorDefinition.overlays[l12 - 1];
 							hues[i8] += flo.blendHue;
 							saturations[i8] += flo.saturation;
 							luminances[i8] += flo.luminance;
@@ -135,7 +132,7 @@ public final class MapRegion {
 					if (i13 >= 0 && i13 < regionSizeX) {
 						int i14 = underlays[z][i13][i8] & 0xff;
 						if (i14 > 0) {
-							FloorDefinition flo_1 = FloorDefinition.underlays[i14 - 1];
+							FloorDefinition flo_1 = FloorDefinition.overlays[i14 - 1];
 							hues[i8] -= flo_1.blendHue;
 							saturations[i8] -= flo_1.saturation;
 							luminances[i8] -= flo_1.luminance;

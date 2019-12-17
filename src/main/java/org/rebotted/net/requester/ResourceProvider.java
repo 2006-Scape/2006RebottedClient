@@ -176,7 +176,7 @@ public final class ResourceProvider extends Provider implements Runnable {
 
 		byte[] data = archive.readFile("map_index");
 		Buffer stream = new Buffer(data);
-		int j1 = stream.readUShort();//mapData.length / 6;
+		int j1 = data.length / 7;
 		areas = new int[j1];
 		mapFiles = new int[j1];
 		landscapes = new int[j1];
@@ -186,6 +186,7 @@ public final class ResourceProvider extends Provider implements Runnable {
 			areas[i2] = stream.readUShort();
 			mapFiles[i2] = stream.readUShort();
 			landscapes[i2] = stream.readUShort();
+			membersArea[i2] = stream.readUnsignedByte();
 		}
 		
 		System.out.println("Map Amount: " + file_amounts[3] + "");

@@ -281,7 +281,7 @@ public class GameApplet extends Applet implements Runnable, MouseListener,
                 Client.updateChatbox = true;
             }
         } else {
-            if(Client.loggedIn && viewport.contains(p)) {
+            if(Client.loggedIn && viewport.contains(p) && Client.openInterfaceId == -1) {
                 if (Client.cameraZoom < 1800 && rotation == 1) {
                     Client.cameraZoom = Client.cameraZoom + 20;
                 } else if (Client.cameraZoom > 20 && rotation == -1) {

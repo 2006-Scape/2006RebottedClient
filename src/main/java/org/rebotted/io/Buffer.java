@@ -27,6 +27,12 @@ public final class Buffer extends Cacheable {
 		return buffer;
 	}
 
+	public int read3Bytes() {
+		currentPosition += 3;
+		return ((payload[currentPosition - 3] & 0xff) << 16) + ((payload[currentPosition - 2] & 0xff) << 8) + (payload[currentPosition - 1] & 0xff);
+	}
+
+
 	public final int readUTriByte(int i) {
 		currentPosition += 3;
 		return (0xff & payload[currentPosition - 3] << 16)

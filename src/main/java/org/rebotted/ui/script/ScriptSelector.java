@@ -1,115 +1,134 @@
 package org.rebotted.ui.script;
 
+import org.rebotted.directory.DirectoryManager;
 import org.rebotted.script.ScriptHandler;
 import org.rebotted.script.loader.ScriptLoader;
 import org.rebotted.script.scriptdata.ScriptData;
 import org.rebotted.script.types.Script;
 import org.rebotted.ui.BotFrame;
-import org.rebotted.ui.menu.BotMenuBar;
+import org.rebotted.ui.themes.SubstanceDark;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * @author Ethan
+ */
 public class ScriptSelector extends JFrame {
 
-
-    private static final long serialVersionUID = 1L;
-    private final ScriptLoader scriptLoader;
-    private JTextField searchField;
-    private JComboBox<String> accounts;
-    private JPanel topPanel;
-    private JPanel scriptPanel;
-    private JScrollPane scrollPane;
+    private JScrollPane scrollPane1;
+    private JTable scriptTable;
+    private JButton startButton;
+    private JComboBox accounts;
+    private JTextField search;
+    private ScriptLoader scriptLoader;
+    private List<ScriptData> scripts;
 
     public ScriptSelector(ScriptLoader scriptLoader) {
-        super("Script Selector");
         this.scriptLoader = scriptLoader;
-        setResizable(false);
-        searchField = new JTextField(20);
-        searchField.setForeground(Color.LIGHT_GRAY);
-        searchField.setText("Search");
-        searchField.setMaximumSize(new Dimension(100, 30));
-        searchField.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                super.focusGained(e);
-                searchField.setForeground(Color.BLACK);
-                searchField.setText("");
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                super.focusLost(e);
-                searchField.setForeground(Color.LIGHT_GRAY);
-                searchField.setText("Search");
-            }
-        });
-        searchField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-            }
-        });
-
-        accounts = new JComboBox<>();
-
-
-        topPanel = new JPanel();
-        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
-        topPanel.add(accounts);
-        topPanel.add(Box.createHorizontalGlue());
-        topPanel.add(searchField);
-
-        scriptPanel = new JPanel();
-        scriptPanel.setLayout(null);
-
-        scrollPane = new JScrollPane(scriptPanel);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(topPanel, BorderLayout.NORTH);
-        getContentPane().add(scrollPane, BorderLayout.CENTER);
-
-
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setSize(535, 405);
-        loadScripts();
-        setVisible(true);
+        scripts = scriptLoader.getScripts();
+        initComponents();
     }
 
-
-    private void loadScripts() {
-        scriptPanel.removeAll();
-        java.util.List<ScriptData> scripts = scriptLoader.getScripts();
-
-        final int width = 170;
-        final int height = 115;
-        final int spacing = 3;
-        final int scriptPerRow = 3;
-        int realIndex = 0;
-        for (int scriptIndex = 0; scriptIndex < scripts.size(); scriptIndex++) {
-            final ScriptData scriptData = scripts.get(scriptIndex);
-            final ScriptPanel panel = new ScriptPanel(scriptData);
-            int col = realIndex / scriptPerRow;
-            int row = realIndex - (col * scriptPerRow);
-            int x = row * width + spacing;
-            int y = col * height + spacing;
-            panel.setBounds(x, y, width, height);
-            panel.getButton().addActionListener(e -> {
-                startScript(scriptData);
-                dispose();
-            });
-            scriptPanel.add(panel);
-            realIndex++;
+    private void startScript(ActionEvent e) {
+        final int category = 0;
+        final int name = 1;
+        final int version = 2;
+        final int desc = 3;
+        final int author = 4;
+        final int row = scriptTable.getSelectedRow();
+        final String categoryName = scriptTable.getModel().getValueAt(row, category).toString();
+        final String scriptName = scriptTable.getModel().getValueAt(row, name).toString();
+        final String versionString = scriptTable.getModel().getValueAt(row, version).toString();
+        final String descString = scriptTable.getModel().getValueAt(row, desc).toString();
+        final String authorName = scriptTable.getModel().getValueAt(row, author).toString();
+        for(ScriptData scriptData : scripts) {
+            if(scriptData.getName().equals(scriptName) && scriptData.getAuthor().equals(authorName)) {
+                if(scriptData.getDesc().equals(descString) && String.valueOf(scriptData.getVersion()).equals(versionString)) {
+                    if(scriptData.getSkillCategory().getName().equals(categoryName)) {
+                        startScript(scriptData);
+                    }
+                }
+            }
         }
-        searchField.setText("");
-        scriptPanel.setPreferredSize(new Dimension(535, (int) (Math.ceil((Double.valueOf(scriptPanel.getComponentCount()) / 3.0)) * height)));
+    }
 
+    private void initComponents() {
+        scrollPane1 = new JScrollPane();
+        startButton = new JButton();
+        accounts = new JComboBox();
+        search = new JTextField();
+
+        setTitle("2006Rebotted - Script Selector");
+        setResizable(false);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        final Container contentPane = getContentPane();
+        contentPane.setLayout(null);
+        final java.util.List<String> columns = new ArrayList<>();
+        final java.util.List<String[]> values = new ArrayList<>();
+        columns.add("Category");
+        columns.add("Script");
+        columns.add("Version");
+        columns.add("Description");
+        columns.add("Author");
+
+        for (ScriptData scriptData : scripts) {
+            values.add(new String[]{scriptData.getSkillCategory().getName(), scriptData.getName(), String.valueOf(scriptData.getVersion()), scriptData.getDesc(), scriptData.getAuthor()});
+        }
+        final TableModel tableModel = new DefaultTableModel(values.toArray(new Object[][]{}), columns.toArray());
+
+        scriptTable = new JTable(tableModel);
+
+        scriptTable.setDefaultEditor(Object.class, null);
+
+        TableColumnModel cm = scriptTable.getColumnModel();
+        cm.getColumn(0).setMinWidth(110);
+        cm.getColumn(0).setMaxWidth(110);
+        cm.getColumn(1).setMinWidth(180);
+        cm.getColumn(1).setMaxWidth(180);
+        cm.getColumn(2).setMinWidth(60);
+        cm.getColumn(2).setMaxWidth(60);
+        cm.getColumn(3).setMinWidth(40);
+        cm.getColumn(4).setMinWidth(100);
+        cm.getColumn(4).setMaxWidth(100);
+
+        scrollPane1.setViewportView(scriptTable);
+
+        contentPane.add(scrollPane1);
+        scrollPane1.setBounds(0, 0, 640, 280);
+
+        startButton.setText("Start");
+        startButton.addActionListener(e -> startScript(e));
+        contentPane.add(startButton);
+        startButton.setBounds(545, 280, 93, startButton.getPreferredSize().height);
+        contentPane.add(accounts);
+        accounts.setBounds(5, 280, 250, accounts.getPreferredSize().height);
+        contentPane.add(search);
+        search.setBounds(270, 281, 255, search.getPreferredSize().height);
+
+
+        final Dimension preferredSize = new Dimension();
+
+        for (int i = 0; i < contentPane.getComponentCount(); i++) {
+            Rectangle bounds = contentPane.getComponent(i).getBounds();
+            preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
+            preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
+        }
+
+        Insets insets = contentPane.getInsets();
+        preferredSize.width += insets.right;
+        preferredSize.height += insets.bottom;
+        contentPane.setMinimumSize(preferredSize);
+        contentPane.setPreferredSize(preferredSize);
+
+        setSize(645, 340);
+        setLocationRelativeTo(getOwner());
     }
 
     private void startScript(ScriptData scriptData) {
@@ -121,5 +140,6 @@ public class ScriptSelector extends JFrame {
         }
         ScriptHandler.getInstance().start(script, scriptData);
         BotFrame.setRunning();
+        dispose();
     }
 }
