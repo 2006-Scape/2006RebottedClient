@@ -71,7 +71,7 @@ public class GameApplet extends Applet implements Runnable, MouseListener,
                                  boolean resizable, boolean full) {
         SwingUtilities.invokeLater(() -> {
             if(!resizable) {
-                Client.botFrame.setSize(new Dimension(774, 559));
+                Client.botFrame.setSize(new Dimension(774, 567));
             }
             Client.botFrame.setResizable(resizable);
         });

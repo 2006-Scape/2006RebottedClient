@@ -1,4 +1,4 @@
-package org.rebotted.ui;
+package org.rebotted.ui.script;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,6 +10,7 @@ import org.rebotted.script.ScriptHandler;
 import org.rebotted.script.scriptdata.ScriptData;
 import org.rebotted.script.scriptdata.SkillCategory;
 import org.rebotted.script.types.Script;
+import org.rebotted.ui.BotFrame;
 
 
 import java.net.URL;

@@ -4,20 +4,22 @@ import org.rebotted.Client;
 import org.rebotted.Configuration;
 import org.rebotted.GameApplet;
 import org.rebotted.script.ScriptHandler;
-import org.rebotted.script.types.Script;
+import org.rebotted.ui.menu.BotMenuBar;
+import org.rebotted.ui.script.ScriptUI;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public final class BotFrame extends JFrame implements ActionListener  {
+public final class BotFrame extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;
 
     private static BotMenuBar botMenuBar;
     private final Client client;
     private final ScriptUI scriptUI;
+
     public BotFrame(Client client, boolean resizable) {
         this.client = client;
         final GameApplet applet = client;
@@ -28,6 +30,7 @@ public final class BotFrame extends JFrame implements ActionListener  {
         add(applet, BorderLayout.CENTER);
         setMinimumSize(new Dimension(774, 567));
         setSize(new Dimension(774, 567));
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
         setLocationRelativeTo(getParent());
         setLocationRelativeTo(getOwner());
@@ -61,9 +64,9 @@ public final class BotFrame extends JFrame implements ActionListener  {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand().toLowerCase()) {
             case "run":
-                if(ScriptHandler.getInstance().getScriptState() == ScriptHandler.State.STOPPED) {
+                if (ScriptHandler.getInstance().getScriptState() == ScriptHandler.State.STOPPED) {
                     scriptUI.show();
-                } else if(ScriptHandler.getInstance().getScriptState() == ScriptHandler.State.PAUSE) {
+                } else if (ScriptHandler.getInstance().getScriptState() == ScriptHandler.State.PAUSE) {
                     ScriptHandler.getInstance().setScriptState(ScriptHandler.State.RUNNING);
                     setRunning();
                 }
@@ -75,6 +78,10 @@ public final class BotFrame extends JFrame implements ActionListener  {
             case "stop":
                 setStopped();
                 ScriptHandler.getInstance().stop();
+                break;
+
+            case "entities":
+                Configuration.namesAboveHeads = !Configuration.namesAboveHeads;
                 break;
         }
     }

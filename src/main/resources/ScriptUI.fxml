@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="353.0" prefWidth="605.0" xmlns="http://javafx.com/javafx/11.0.1"
-            fx:controller="org.rebotted.ui.ScriptController">
+            fx:controller="org.rebotted.ui.script.ScriptController">
     <children>
         <TableView fx:id="scriptTable" prefHeight="325.0" prefWidth="605.0">
             <columns>

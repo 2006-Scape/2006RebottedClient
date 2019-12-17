@@ -257,6 +257,7 @@ public final class ObjectDefinition {
 
     public static ObjectDefinition lookup(int id) {
         if (id > streamIndices.length) {
+            System.out.println("ID: "+id + " instance is larger than objects we have.");
             id = streamIndices.length - 1;
         }
         switch (id) {

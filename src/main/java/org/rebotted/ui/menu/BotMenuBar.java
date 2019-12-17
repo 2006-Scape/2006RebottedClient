@@ -1,4 +1,6 @@
-package org.rebotted.ui;
+package org.rebotted.ui.menu;
+
+import org.rebotted.ui.BotFrame;
 
 import javax.swing.*;
 
@@ -9,8 +11,10 @@ import javax.swing.*;
 public class BotMenuBar extends JMenuBar {
     private BotFrame botUI;
     private static JButton startButton, pauseButton, stopButton;
-    private JMenu file, scripts;
+    private JMenu file, scripts, debugs;
     private JMenuItem run, pause, stop;
+
+    private JMenuItem debugEntities;
 
     public BotMenuBar(BotFrame botUI) {
         this.botUI = botUI;
@@ -26,6 +30,7 @@ public class BotMenuBar extends JMenuBar {
 
         file = new JMenu("File");
         scripts = new JMenu("Script");
+        debugs = new JMenu("Debugs");
 
         final JMenuItem exit = new JMenuItem("Exit");
 
@@ -36,11 +41,17 @@ public class BotMenuBar extends JMenuBar {
 
         stop = createNewJMenuItem("Stop", false);
 
+        stop = createNewJMenuItem("Stop", false);
+
+        debugEntities = createNewJMenuItem("Entities", true);
+
         exit.addActionListener(botUI);
 
         scripts.add(run);
         scripts.add(pause);
         scripts.add(stop);
+
+        debugs.add(debugEntities);
 
         file.add(exit);
 
@@ -76,6 +87,7 @@ public class BotMenuBar extends JMenuBar {
         removeAll();
         add(file);
         add(scripts);
+        add(debugs);
         add(Box.createHorizontalGlue());
         add(startButton);
         add(pauseButton);

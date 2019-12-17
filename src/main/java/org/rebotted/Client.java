@@ -99,9 +99,9 @@ public class Client extends GameApplet {
     public static int anInt1290;
     public static String server = "";
     public static int[] fullScreenTextureArray;
-    static int openInterfaceId;
+    public static int openInterfaceId;
     static int anInt1211;
-    static int tabId;
+    public static int tabId;
     private static int anInt849;
     private static int anInt854;
     private static int anInt924;
@@ -273,14 +273,14 @@ public class Client extends GameApplet {
     private long loadingStartTime;
     private int[][] anIntArrayArray825;
     private int[] friendsNodeIDs;
-    private Deque[][][] groundItems;
+    public Deque[][][] groundItems;
     private int[] anIntArray828;
     private int[] anIntArray829;
     private volatile boolean aBoolean831;
     private Socket jaggrab;
     private int loginScreenState;
     private Buffer chatBuffer;
-    private Npc[] npcs;
+    public Npc[] npcs;
     private int npcCount;
     private int[] npcIndices;
     private int removedMobCount;
@@ -297,11 +297,11 @@ public class Client extends GameApplet {
     private int[] anIntArray852;
     private int[] anIntArray853;
     private int hintIconDrawType;
-    private int xCameraPos;
-    private int zCameraPos;
-    private int yCameraPos;
-    private int yCameraCurve;
-    private int xCameraCurve;
+    public int xCameraPos;
+    public int zCameraPos;
+    public int yCameraPos;
+    public int yCameraCurve;
+    public int xCameraCurve;
     private int myPrivilege;
     private Sprite mapFlag;
     private Sprite mapMarker;
@@ -309,10 +309,10 @@ public class Client extends GameApplet {
     private MouseDetection mouseDetection;
     private volatile boolean drawFlames;
     private String reportAbuseInput;
-    private boolean menuOpen;
+    public boolean menuOpen;
     private int anInt886;
     private String inputString;
-    private Player[] players;
+    public Player[] players;
     private int playerCount;
     private int[] playerList;
     private int mobsAwaitingUpdateCount;
@@ -328,7 +328,7 @@ public class Client extends GameApplet {
     private int crossY;
     private int crossIndex;
     private int crossType;
-    private int plane;
+    public int plane;
     private boolean loadingError;
     private int[][] anIntArrayArray929;
     private Sprite aClass30_Sub2_Sub1_Sub1_931;
@@ -345,8 +345,8 @@ public class Client extends GameApplet {
     private int menuScreenArea;
     private int menuOffsetX;
     private int menuOffsetY;
-    private int menuWidth;
-    private int menuHeight;
+    public int menuWidth;
+    public int menuHeight;
     private long aLong953;
     private boolean aBoolean954;
     private long[] friendsListAsLongs;
@@ -390,15 +390,15 @@ public class Client extends GameApplet {
     private int anInt1026;
     private boolean aBoolean1031;
     private Sprite[] mapFunctions;
-    private int regionBaseX;
-    private int regionBaseY;
+    public int regionBaseX;
+    public int regionBaseY;
     private int previousAbsoluteX;
     private int previousAbsoluteY;
     private int loginFailures;
     private int anInt1039;
     private int anInt1040;
     private int anInt1041;
-    private int dialogueId;
+    public int dialogueId;
     private int member;
     private boolean maleCharacter;
     private int anInt1048;
@@ -430,10 +430,10 @@ public class Client extends GameApplet {
     private int activeInterfaceType;
     private int anInt1087;
     private int anInt1088;
-    private int[] firstMenuAction;
-    private int[] secondMenuAction;
-    private int[] menuActionTypes;
-    private int[] selectedMenuActions;
+    public int[] firstMenuAction;
+    public int[] secondMenuAction;
+    public int[] menuActionTypes;
+    public int[] selectedMenuActions;
     private Sprite[] headIcons;
     private Sprite[] skullIcons;
     private Sprite[] headIconsHint;
@@ -456,15 +456,15 @@ public class Client extends GameApplet {
     private String aString1121;
     private Sprite compass;
     private ProducingGraphicsBuffer chatSettingImageProducer;
-    private int cameraY;
-    private int menuActionRow;
-    private int spellSelected;
+    public int cameraY;
+    public int menuActionRow;
+    public int spellSelected;
     private int anInt1137;
-    private int spellUsableOn;
+    public int spellUsableOn;
     private String spellTooltip;
     private Sprite[] minimapHint;
     private boolean inPlayerOwnedHouse;
-    private int runEnergy = 100;
+    public int runEnergy = 100;
     private boolean continuedDialogue;
     private Sprite[] crosses;
     private IndexedImage[] titleIndexedImages;
@@ -487,7 +487,7 @@ public class Client extends GameApplet {
     private int cameraHorizontal;
     private int anInt1186;
     private int anInt1187;
-    private int overlayInterfaceId;
+    public int overlayInterfaceId;
     private int[] anIntArray1190;
     private int[] anIntArray1191;
     private Buffer outgoing;
@@ -498,9 +498,9 @@ public class Client extends GameApplet {
     private Sprite flameLeftSprite;
     private Sprite flameRightSprite;
     private int minimapRotation;
-    private String promptInput;
+    public String promptInput;
     private int anInt1213;
-    private int[][][] tileHeights;
+    public int[][][] tileHeights;
     private long serverSeed;
     private int loginScreenCursorPos;
     private long aLong1220;
@@ -526,17 +526,17 @@ public class Client extends GameApplet {
     private int anInt1253;
     private boolean welcomeScreenRaised;
     private boolean messagePromptRaised;
-    private byte[][][] tileFlags;
+    public byte[][][] tileFlags;
     private int prevSong;
-    private int destinationX;
-    private int destY;
+    public int destinationX;
+    public int destY;
     private Sprite minimapImage;
     private int anInt1264;
     private int anInt1265;
     private String firstLoginMessage;
     private String secondLoginMessage;
-    private int localX;
-    private int localY;
+    public int localX;
+    public int localY;
     private GameFont smallText;
     private GameFont regularText;
     private GameFont boldText;
@@ -552,7 +552,6 @@ public class Client extends GameApplet {
     private int anInt1285;
     private String selectedItemName;
     private int publicChatMode;
-    private ClassArchive classArchive;
     private RebottedAPI api;
     private APIData apiData;
     public Client() {
@@ -2630,7 +2629,7 @@ public class Client extends GameApplet {
                     NpcDefinition entityDef = ((Npc) obj).desc;
                     if (Configuration.namesAboveHeads) {
                         npcScreenPos(((Mob) (obj)), ((Mob) (obj)).height + 15);
-                        smallText.drawText(0x0099FF, entityDef.name, spriteDrawY - 5, spriteDrawX); // -15
+                        smallText.drawText(0x0099FF, entityDef.name + " - ID: ["+entityDef.id+"]", spriteDrawY - 5, spriteDrawX); // -15
                         // from
                         // original
                     }
@@ -4736,21 +4735,34 @@ public class Client extends GameApplet {
     }
 
     // TODO menu actions
-    private void processMenuActions(int id) {
-        if (id < 0) {
-            return;
-        }
+    private void processMenuActions(int index) {
+        processMenuActions(index, null);
+    }
+
+    public void processMenuActions(int index, MenuAction menuAction) {
 
         if (inputDialogState != 0) {
             inputDialogState = 0;
             updateChatbox = true;
         }
+        int first = -1;
+        int button = -1;
+        int action = -1;
+        int clicked = -1;
+        //First: 0 button: 0 action: 412 clicked: 777 actionText: Attack @yel@Man@gr1@ (level-2)
+        if(menuAction != null) {
+            first = menuAction.getMouseX();
+            button = menuAction.getMouseX();
+            action = menuAction.getActionId();
+            clicked = menuAction.getHash();
+        } else {
+            first = firstMenuAction[index];
+            button = secondMenuAction[index];
+            action = menuActionTypes[index];
+            clicked = selectedMenuActions[index];
+        }
 
-        int first = firstMenuAction[id];
-        int button = secondMenuAction[id];
-        int action = menuActionTypes[id];
-        int clicked = selectedMenuActions[id];
-
+        //System.out.println("First: "+first + " button: "+button + " action: "+action + " clicked: "+clicked+ " actionText: "+menuActionText[index]);
         if (action >= 2000) {
             action -= 2000;
         }
@@ -5079,7 +5091,7 @@ public class Client extends GameApplet {
         }
 
         if (action == 337 || action == 42 || action == 792 || action == 322) {
-            String string = menuActionText[id];
+            String string = menuActionText[index];
             int indexOf = string.indexOf("@whi@");
             if (indexOf != -1) {
                 long usernameHash = StringUtils.encodeBase37(string.substring(indexOf + 5).trim());
@@ -5133,7 +5145,7 @@ public class Client extends GameApplet {
             }
         }
         if (action == 484 || action == 6) {
-            String string = menuActionText[id];
+            String string = menuActionText[index];
             int indexOf = string.indexOf("@whi@");
             if (indexOf != -1) {
                 string = string.substring(indexOf + 5).trim();
@@ -5756,17 +5768,17 @@ public class Client extends GameApplet {
 
         // Clicking report abuse button
         if (action == 606) {
-            String s2 = menuActionText[id];
+            String s2 = menuActionText[index];
             int j2 = s2.indexOf("@whi@");
             if (j2 != -1)
                 if (openInterfaceId == -1) {
                     clearTopInterfaces();
                     reportAbuseInput = s2.substring(j2 + 5).trim();
                     canMute = false;
-                    for (int index = 0; index < Widget.interfaceCache.length; index++) {
-                        if (Widget.interfaceCache[index] == null || Widget.interfaceCache[index].contentType != 600)
+                    for (int z = 0; z < Widget.interfaceCache.length; z++) {
+                        if (Widget.interfaceCache[z] == null || Widget.interfaceCache[z].contentType != 600)
                             continue;
-                        reportAbuseInterfaceID = openInterfaceId = Widget.interfaceCache[index].parent;
+                        reportAbuseInterfaceID = openInterfaceId = Widget.interfaceCache[z].parent;
                         break;
                     }
 
@@ -5797,7 +5809,7 @@ public class Client extends GameApplet {
 
         // reply to private message
         if (action == 639) {
-            String text = menuActionText[id];
+            String text = menuActionText[index];
 
             int indexOf = text.indexOf("@whi@");
 
@@ -5997,7 +6009,6 @@ public class Client extends GameApplet {
         }
         itemSelected = 0;
         spellSelected = 0;
-
     }
 
     @SuppressWarnings("unused")
@@ -8233,8 +8244,7 @@ public class Client extends GameApplet {
         secondLoginMessage = "Error connecting to server.";
     }
 
-    private boolean doWalkTo(int type, int j, int k, int i1, int j1, int k1, int l1, int i2, int j2, boolean flag,
-                             int k2) {
+    public boolean doWalkTo(int type, int j, int k, int i1, int j1, int k1, int l1, int i2, int j2, boolean flag, int k2) {
         byte byte0 = 104;
         byte byte1 = 104;
         for (int l2 = 0; l2 < byte0; l2++) {
@@ -11174,14 +11184,16 @@ public class Client extends GameApplet {
     }
 
     private void loadAllOrbs(int xOffset) {
-        loadHpOrb(xOffset);
-        loadPrayerOrb(xOffset);
-        loadRunOrb(xOffset);
-        loadSpecialOrb(xOffset);
-        if (frameMode == ScreenMode.FIXED) {
-            SpriteCache.lookup(worldHover ? 54 : 53).drawSprite(202, 20);
-        } else {
-            SpriteCache.lookup(worldHover ? 52 : 51).drawSprite(frameWidth - 118, 154);
+        if(Configuration.enableOrbs) {
+            loadHpOrb(xOffset);
+            loadPrayerOrb(xOffset);
+            loadRunOrb(xOffset);
+            loadSpecialOrb(xOffset);
+            if (frameMode == ScreenMode.FIXED) {
+                SpriteCache.lookup(worldHover ? 54 : 53).drawSprite(202, 20);
+            } else {
+                SpriteCache.lookup(worldHover ? 52 : 51).drawSprite(frameWidth - 118, 154);
+            }
         }
     }
 

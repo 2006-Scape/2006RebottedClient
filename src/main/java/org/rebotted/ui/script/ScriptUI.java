@@ -1,4 +1,4 @@
-package org.rebotted.ui;
+package org.rebotted.ui.script;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
