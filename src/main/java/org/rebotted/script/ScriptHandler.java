@@ -2,6 +2,7 @@ package org.rebotted.script;
 
 import org.rebotted.script.scriptdata.ScriptData;
 import org.rebotted.script.types.Script;
+import org.rebotted.ui.BotFrame;
 import org.rebotted.util.Condition;
 
 public class ScriptHandler implements Runnable {
@@ -41,6 +42,7 @@ public class ScriptHandler implements Runnable {
             }
         } catch (Exception e) {
             stop();
+            e.printStackTrace();
         }
     }
 
@@ -79,15 +81,18 @@ public class ScriptHandler implements Runnable {
         this.scriptState = State.STOPPED;
         this.script.onStop();
         this.scriptThread.interrupt();
+        BotFrame.setStopped();
     }
 
     public void pause() {
         if (scriptState.equals(State.RUNNING)) {
             System.out.println("Script Paused: " + scriptData.getName());
             this.scriptState = State.PAUSE;
+            BotFrame.setPaused();
         } else if (scriptState.equals(State.PAUSE)) {
             System.out.println("Script resumed: " + scriptData.getName());
             this.scriptState = State.RUNNING;
+            BotFrame.setRunning();
         }
     }
 

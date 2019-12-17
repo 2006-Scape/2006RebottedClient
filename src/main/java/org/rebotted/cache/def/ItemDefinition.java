@@ -45,7 +45,7 @@ public final class ItemDefinition {
 			} else if (opcode == 2) {
 				name = buffer.readString();
 			} else if (opcode == 3) {
-				description = buffer.readString();
+				description = buffer.readBytes();
 			} else if (opcode == 4) {
 				modelZoom = buffer.readUShort();	
 			} else if (opcode == 5) {
@@ -92,7 +92,6 @@ public final class ItemDefinition {
 				}
 				actions[opcode - 35] = buffer.readString();
 			} else if (opcode == 40) {
-				
 				int colors = buffer.readUnsignedByte();				
 				modifiedModelColors = new int[colors];				
 				originalModelColors = new int[colors];				
@@ -302,7 +301,7 @@ public final class ItemDefinition {
 		char c = itemDef_1.name.charAt(0);
 		if (c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U')
 			s = "an";
-		description = ("Swap this note at any bank for " + s + " " + itemDef_1.name + ".");
+		description = ("Swap this note at any bank for " + s + " " + itemDef_1.name + ".").getBytes();
 		stackable = true;
 	}
 
@@ -528,7 +527,7 @@ public final class ItemDefinition {
 	public int inventoryModel;
 	public int equippedMaleModelDialogue1;
 	public boolean stackable;
-	public String description;
+	public byte[] description;
 	public int unnotedItemId;
 	private static int cacheIndex;
 	public int modelZoom;

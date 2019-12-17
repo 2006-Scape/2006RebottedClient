@@ -3,6 +3,7 @@ package org.rebotted.ui;
 import org.rebotted.Client;
 import org.rebotted.Configuration;
 import org.rebotted.GameApplet;
+import org.rebotted.cache.def.ItemDefinition;
 import org.rebotted.script.ScriptHandler;
 import org.rebotted.script.loader.ScriptLoader;
 import org.rebotted.ui.menu.BotMenuBar;
@@ -12,6 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public final class BotFrame extends JFrame implements ActionListener {
 

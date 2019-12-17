@@ -494,7 +494,7 @@ public class Client extends GameApplet {
     private int anInt1193;
     private int splitPrivateChat;
     private IndexedImage mapBack;
-    private String[] menuActionText;
+    public String[] menuActionText;
     private Sprite flameLeftSprite;
     private Sprite flameRightSprite;
     private int minimapRotation;
@@ -505,7 +505,7 @@ public class Client extends GameApplet {
     private int loginScreenCursorPos;
     private long aLong1220;
     private int hintIconNpcId;
-    private int inputDialogState;
+    public int inputDialogState;
     private int nextSong;
     private boolean fadeMusic;
     private CollisionMap[] collisionMaps;
@@ -4762,7 +4762,7 @@ public class Client extends GameApplet {
             clicked = selectedMenuActions[index];
         }
 
-        //System.out.println("First: "+first + " button: "+button + " action: "+action + " clicked: "+clicked+ " actionText: "+menuActionText[index]);
+        System.out.println("First: "+first + " button: "+button + " action: "+action + " clicked: "+clicked+ " actionText: "+menuActionText[index]);
         if (action >= 2000) {
             action -= 2000;
         }
@@ -5927,7 +5927,7 @@ public class Client extends GameApplet {
             if (widget != null && widget.inventoryAmounts[first] >= 0x186a0)
                 s5 = widget.inventoryAmounts[first] + " x " + itemDef.name;
             else if (itemDef.description != null)
-                s5 = itemDef.description;
+                s5 = new String(itemDef.description);
             else
                 s5 = "It's a " + itemDef.name + ".";
             sendMessage(s5, 0, "");
@@ -6002,7 +6002,7 @@ public class Client extends GameApplet {
             ItemDefinition definition = ItemDefinition.lookup(clicked);
             String string;
             if (definition.description != null)
-                string = definition.description;
+                string = new String(definition.description);
             else
                 string = "It's a " + definition.name + ".";
             sendMessage(string, 0, "");
