@@ -1,5 +1,7 @@
 package org.rebotted.script.loader;
 
+import org.rebotted.archive.ASMClassLoader;
+import org.rebotted.archive.ClassArchive;
 import org.rebotted.bot.data.APIData;
 import org.rebotted.directory.DirectoryManager;
 import org.rebotted.script.scriptdata.ScriptData;
@@ -32,13 +34,17 @@ public class ScriptLoader {
         try {
             for (File file : DirectoryManager.getInstance().getRootDirectory().getSubDirectory(DirectoryManager.SCRIPTS).getFiles()) {
                 if (file.getAbsolutePath().endsWith(".jar")) {
-                    apiData.getClassArchive().addJar(file);
+                    final ClassArchive classArchive = new ClassArchive();
+                    classArchive.inheritClassArchive(apiData.getClassArchive());
+                    classArchive.addJar(file);
+                    final ASMClassLoader classLoader = new ASMClassLoader(classArchive);
+                    classLoader.inheritClassLoader(apiData.getClassLoader());
                     try (JarInputStream inputStream = new JarInputStream(new FileInputStream(file))) {
                         JarEntry jarEntry;
                         while ((jarEntry = inputStream.getNextJarEntry()) != null) {
                             if (jarEntry.getName().endsWith(".class") && !jarEntry.getName().contains("$")) {
                                 final String classPackage = jarEntry.getName().replace(".class", "");
-                                final Class<?> clazz = apiData.getClassLoader().loadClass(classPackage.replaceAll("/", "."));
+                                final Class<?> clazz = classLoader.loadClass(classPackage.replaceAll("/", "."));
                                 if (clazz.isAnnotationPresent(ScriptManifest.class)) {
                                     final ScriptManifest manifest = clazz.getAnnotation(ScriptManifest.class);
                                     final ScriptData scriptData = new ScriptData(clazz, manifest.name(), manifest.description(), manifest.version(), manifest.author(), manifest.category(), file);

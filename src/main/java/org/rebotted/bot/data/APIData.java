@@ -1,5 +1,6 @@
 package org.rebotted.bot.data;
 
+import org.rebotted.archive.ASMClassLoader;
 import org.rebotted.archive.ClassArchive;
 
 import java.io.File;
@@ -9,10 +10,10 @@ public class APIData {
     private final Class<?> clazz;
     private final double version;
     private final File apiPath;
-    private final ClassLoader classLoader;
+    private final ASMClassLoader classLoader;
     private final ClassArchive classArchive;
 
-    public APIData(Class<?> clazz, double version, File apiPath, ClassArchive classArchive, ClassLoader classLoader) {
+    public APIData(Class<?> clazz, double version, File apiPath, ClassArchive classArchive, ASMClassLoader classLoader) {
         this.clazz = clazz;
         this.version = version;
         this.apiPath = apiPath;
@@ -36,7 +37,7 @@ public class APIData {
         return apiPath;
     }
 
-    public ClassLoader getClassLoader() {
+    public ASMClassLoader getClassLoader() {
         return classLoader;
     }
 
