@@ -4745,10 +4745,10 @@ public class Client extends GameApplet {
             inputDialogState = 0;
             updateChatbox = true;
         }
-        int first = -1;
-        int button = -1;
-        int action = -1;
-        int clicked = -1;
+        int first;
+        int button;
+        int action;
+        int clicked;
         //First: 0 button: 0 action: 412 clicked: 777 actionText: Attack @yel@Man@gr1@ (level-2)
         if(menuAction != null) {
             first = menuAction.getMouseX();

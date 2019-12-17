@@ -65,14 +65,16 @@ public class APILoader {
             classArchive.loadClasses(classMap);
             final ASMClassLoader classLoader = new ASMClassLoader(classArchive);
             for(ClassNode node : classArchive.classes.values()) {
-                for(AnnotationNode annotationNode : node.visibleAnnotations) {
-                    if(annotationNode.desc.equals("L"+APIManifest.class.getCanonicalName().replaceAll("\\.", "/")+";")) {
-                        final Class<?> clazz = classLoader.loadClass(node.name.replaceAll("/", "."));
-                        final APIManifest manifest = clazz.getAnnotation(APIManifest.class);
-                        rebottedAPI = (RebottedAPI) clazz.getConstructors()[0].newInstance(client);
-                        System.out.println("Rebotted API version "+manifest.version()+" has been loaded...");
-                        final APIData apiData = new APIData(clazz, manifest.version(), null, classArchive, classLoader);
-                        return apiData;
+                if (node.visibleAnnotations != null && node.visibleAnnotations.size() > 0) {
+                    for (AnnotationNode annotationNode : node.visibleAnnotations) {
+                        if (annotationNode.desc.equals("L" + APIManifest.class.getCanonicalName().replaceAll("\\.", "/") + ";")) {
+                            final Class<?> clazz = classLoader.loadClass(node.name.replaceAll("/", "."));
+                            final APIManifest manifest = clazz.getAnnotation(APIManifest.class);
+                            rebottedAPI = (RebottedAPI) clazz.getConstructors()[0].newInstance(client);
+                            System.out.println("Rebotted API version " + manifest.version() + " has been loaded...");
+                            final APIData apiData = new APIData(clazz, manifest.version(), null, classArchive, classLoader);
+                            return apiData;
+                        }
                     }
                 }
             }

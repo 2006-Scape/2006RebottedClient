@@ -79,7 +79,6 @@ public final class BotFrame extends JFrame implements ActionListener {
                 setStopped();
                 ScriptHandler.getInstance().stop();
                 break;
-
             case "entities":
                 Configuration.namesAboveHeads = !Configuration.namesAboveHeads;
                 break;
