@@ -8,6 +8,10 @@ public class GameFrameIds {
 
     public static int REDONE_INVENTORY = 62;
 
+    public static int OSRS_CHATBOX = 20;
+
+    public static int REDONE_CHATBOX = 61;
+
     public static int[] OSRS_STONES_X = {6, 44, 77, 110, 143, 176, 209, 6, 44, 77, 110, 143, 176, 209};
 
     public static int[] REDONE_STONES_X = {20, 52, 80, 108, 151, 179, 207, 20, 52, 80, 108, 151, 179, 207};

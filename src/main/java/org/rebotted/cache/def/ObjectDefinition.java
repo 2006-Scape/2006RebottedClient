@@ -187,7 +187,7 @@ public final class ObjectDefinition {
                     supportItems = solid ? 1 : 0;
             }
         } catch (Exception e) {
-            System.err.println("ERROR LOADING: "+id);
+            //System.err.println("ERROR LOADING: "+id);
         }
     }
     public boolean obstructsGround;

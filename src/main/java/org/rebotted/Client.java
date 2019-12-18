@@ -73,7 +73,7 @@ public class Client extends GameApplet {
     public static final int[] anIntArray1204 = {9104, 10275, 7595, 3610, 7975, 8526, 918, 38802, 24466, 10145, 58654,
             5027, 1457, 16565, 34991, 25486};
     private static final long serialVersionUID = 5707517957054703648L;
-    private static final int[] SKILL_EXPERIENCE;
+    public static final int[] SKILL_EXPERIENCE;
     private static final String validUserPassChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"\243$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
     public static ScreenMode frameMode = ScreenMode.FIXED;
     public static int frameWidth = 765;
@@ -91,6 +91,7 @@ public class Client extends GameApplet {
     public static int anInt1089;
     public static int spellId = 0;
     public static int totalRead = 0;
+    public IndexedImage chatBack = null;
     public static Player localPlayer;
     public static boolean loggedIn;
     public static int tick;
@@ -164,12 +165,12 @@ public class Client extends GameApplet {
             tabClickStart = {522, 560, 593, 625, 659, 692, 724, 522, 560, 593, 625, 659, 692, 724},
             tabClickY = {169, 169, 169, 169, 169, 169, 169, 466, 466, 466, 466, 466, 466, 466};
     private final int[] chatRights;
-    private final int[] currentExp;
+    public final int[] currentExp;
     private final int[] quakeMagnitudes;
     private final boolean[] quakeDirectionActive;
     private final int maxPlayers;
     private final int internalLocalPlayerIndex;
-    private final int[] currentStats;
+    public final int[] currentStats;
     private final long[] ignoreListAsLongs;
     private final int[] quake4PiOverPeriods;
     private final int[] chatTypes;
@@ -190,7 +191,7 @@ public class Client extends GameApplet {
     private final int[] characterDesignColours;
     private final boolean aBoolean994;
     private final int[] quakeTimes;
-    private final int[] maximumLevels;
+    public final int[] maximumLevels;
     private final int[] anIntArray1045;
     private final int[] minimapLeft;
     private final int[] anIntArray1057;
@@ -494,6 +495,7 @@ public class Client extends GameApplet {
     private int anInt1193;
     private int splitPrivateChat;
     private IndexedImage mapBack;
+    private IndexedImage backBase1 = null;
     public String[] menuActionText;
     private Sprite flameLeftSprite;
     private Sprite flameRightSprite;
@@ -1107,6 +1109,14 @@ public class Client extends GameApplet {
     }
 
     public void drawChannelButtons() {
+        if(Configuration.OSRS_GAMEFRAME) {
+            drawOSRSButtons();
+        } else {
+            drawRedoneChannels();
+        }
+    }
+
+    public void drawOSRSButtons() {
         final int yOffset = frameMode == ScreenMode.FIXED ? 0 : frameHeight - 165;
         SpriteCache.lookup(49).drawSprite(0, 143 + yOffset);
         String[] text = {"On", "Friends", "Off", "Hide"};
@@ -1159,12 +1169,41 @@ public class Client extends GameApplet {
         }
     }
 
-    private boolean chatStateCheck() {
+    private void drawRedoneChannels() {
+        final int yOffset = frameMode == ScreenMode.FIXED ? 0 : frameHeight - 165;
+        final String[] text = {"On", "Friends", "Off", "Hide"};
+        final int[] textColor = {65280, 0xffff00, 0xff0000, 65535};
+
+        final int[] modes = {publicChatMode, privateChatMode, tradeMode};
+
+        final int[] modeX = {55, 183, 325},
+                modeNamesX = {40, 163, 312, 423},
+                modeNamesY = {142, 142, 142, 148},
+                channelButtonsX = {5, 71, 137, 203, 269, 335, 404};
+
+        final String[] modeNames = {"Public", "Private", "Trade", "Report Abuse"};
+        for (int i = 0; i < modeNamesX.length; i++) {
+            smallText.drawTextWithPotentialShadow(true, modeNamesX[i], 0xffffff, modeNames[i], modeNamesY[i] + yOffset);
+        }
+        for (int i = 0; i < modeX.length; i++) {
+            smallText.method382(textColor[modes[i]], modeX[i], text[modes[i]], 154 + yOffset, true);
+        }
+
+        //smallText.method382(0xff0000, 460, "Report Abuse", 148 + yOffset, true);
+    }
+
+    public boolean chatStateCheck() {
         return messagePromptRaised || inputDialogState != 0 || clickToContinueString != null || backDialogueId != -1
                 || dialogueId != -1;
     }
 
-    private void drawChatArea() {
+    private void drawOSRSChatArea() {
+        final int chatbox;
+        if(Configuration.OSRS_GAMEFRAME) {
+            chatbox = GameFrameIds.OSRS_CHATBOX;
+        } else {
+            chatbox = GameFrameIds.REDONE_CHATBOX;
+        }
         int yOffset = frameMode == ScreenMode.FIXED ? 0 : frameHeight - 165;
         if (frameMode == ScreenMode.FIXED) {
             chatboxImageProducer.initDrawingArea();
@@ -1172,14 +1211,14 @@ public class Client extends GameApplet {
         Rasterizer3D.scanOffsets = anIntArray1180;
         if (chatStateCheck()) {
             showChatComponents = true;
-            SpriteCache.lookup(20).drawSprite(0, yOffset);
+            SpriteCache.lookup(chatbox).drawSprite(0, yOffset);
         }
         if (showChatComponents) {
             if (changeChatArea && !chatStateCheck()) {
                 Rasterizer2D.drawHorizontalLine(7, 7 + yOffset, 506, 0x575757);
                 Rasterizer2D.drawTransparentGradientBox(7, 7 + yOffset, 506, 135, 0, 0xFFFFFF, 20);
             } else {
-                SpriteCache.lookup(20).drawSprite(0, yOffset);
+                SpriteCache.lookup(chatbox).drawSprite(0, yOffset);
             }
         }
         if (!showChatComponents || changeChatArea) {
@@ -1345,14 +1384,8 @@ public class Client extends GameApplet {
                                     modIcons[0].drawSprite(j2 - 18, yPos - 12 + yOffset);
                                     j2 += 14;
                                     break;
-
-                                case 2:
-                                    j2 += clanNameWidth;
-                                    modIcons[1].drawSprite(j2 - 18, yPos - 12 + yOffset);
-                                    j2 += 14;
-                                    break;
-
                                 case 3:
+                                case 2:
                                     j2 += clanNameWidth;
                                     modIcons[1].drawSprite(j2 - 18, yPos - 12 + yOffset);
                                     j2 += 14;
@@ -1396,10 +1429,268 @@ public class Client extends GameApplet {
                 modIcons[myPrivilege - 1].drawSprite(10, 122 + yOffset);
                 xOffset += 14;
             }
+            //oint y = 133;
             newRegularFont.drawBasicString(s + ":", xOffset + 11, 133 + yOffset, changeChatArea ? 0xFFFFFF : 0, shadow);
             newRegularFont.drawBasicString(inputString + "*", xOffset + 12 + font.getTextWidth(s + ": "), 133 + yOffset,
                     changeChatArea ? 0x7FA9FF : 255, shadow);
             Rasterizer2D.drawHorizontalLine(7, 121 + yOffset, 506, changeChatArea ? 0x575757 : 0x807660);
+            Rasterizer2D.defaultDrawingAreaSize();
+        }
+        if (menuOpen) {
+            drawMenu(0, frameMode == ScreenMode.FIXED ? 338 : 0);
+        }
+        if (frameMode == ScreenMode.FIXED) {
+            chatboxImageProducer.drawGraphics(338, super.graphics, 0);
+        }
+        gameScreenImageProducer.initDrawingArea();
+        Rasterizer3D.scanOffsets = anIntArray1182;
+    }
+    private void drawChatArea() {
+        if(Configuration.OSRS_GAMEFRAME) {
+            drawOSRSChatArea();
+        } else {
+            drawRedoneArea();
+        }
+    }
+    private void drawRedoneArea() {
+        final int chatbox;
+        if(Configuration.OSRS_GAMEFRAME) {
+            chatbox = GameFrameIds.OSRS_CHATBOX;
+        } else {
+            chatbox = GameFrameIds.REDONE_CHATBOX;
+        }
+        int yOffset = frameMode == ScreenMode.FIXED ? 0 : frameHeight - 165;
+        if (frameMode == ScreenMode.FIXED) {
+            chatboxImageProducer.initDrawingArea();
+        }
+        Rasterizer3D.scanOffsets = anIntArray1180;
+        if (chatStateCheck()) {
+            showChatComponents = true;
+            SpriteCache.lookup(chatbox).drawSprite(0, yOffset);
+        }
+        if (showChatComponents) {
+            if (changeChatArea && !chatStateCheck()) {
+                Rasterizer2D.drawHorizontalLine(7, 7 + yOffset, 506, 0x575757);
+                Rasterizer2D.drawTransparentGradientBox(7, 7 + yOffset, 506, 135, 0, 0xFFFFFF, 20);
+            } else {
+                SpriteCache.lookup(chatbox).drawSprite(0, yOffset);
+            }
+        }
+        if (!showChatComponents || changeChatArea) {
+            Rasterizer2D.drawTransparentBox(7, frameHeight - 23, 506, 24, 0, 100);
+        }
+        drawChannelButtons();
+        GameFont font = regularText;
+        if (messagePromptRaised) {
+            newBoldFont.drawCenteredString(aString1121, 259, 60 + yOffset, 0, -1);
+            newBoldFont.drawCenteredString(promptInput + "*", 259, 80 + yOffset, 128, -1);
+        } else if (inputDialogState == 1) {
+            newBoldFont.drawCenteredString("Enter amount:", 259, yOffset + 60, 0, -1);
+            newBoldFont.drawCenteredString(amountOrNameInput + "*", 259, 80 + yOffset, 128, -1);
+        } else if (inputDialogState == 2) {
+            newBoldFont.drawCenteredString("Enter Name:", 259, 60 + yOffset, 0, -1);
+            newBoldFont.drawCenteredString(amountOrNameInput + "*", 259, 80 + yOffset, 128, -1);
+        } else if (clickToContinueString != null) {
+            newBoldFont.drawCenteredString(clickToContinueString, 259, 60 + yOffset, 0, -1);
+            newBoldFont.drawCenteredString("Click to continue", 259, 80 + yOffset, 128, -1);
+        } else if (backDialogueId != -1) {
+            try {
+                drawInterface(0, 20, Widget.interfaceCache[backDialogueId], 20 + yOffset);
+            } catch (Exception ex) {
+
+            }
+        } else if (dialogueId != -1) {
+            try {
+                drawInterface(0, 20, Widget.interfaceCache[dialogueId], 20 + yOffset);
+            } catch (Exception ex) {
+
+            }
+        } else if (showChatComponents) {
+            int j = 0;
+            int j77 = -2;
+            int shadow = changeChatArea ? 0 : -1;
+            Rasterizer2D.setDrawingArea(103 + yOffset, 8, 497, 14 + yOffset);
+            for (int k = 0; k < 500; k++) {
+                if (chatMessages[k] != null) {
+                    int chatType = chatTypes[k];
+                    int yPos = (68 - j77 * 14) + anInt1089 + 4;
+                    String s1 = chatNames[k];
+                    byte data = 0;
+                    if (s1 != null && s1.startsWith("@cr1@")) {
+                        s1 = s1.substring(5);
+                        data = 1;
+                    } else if (s1 != null && s1.startsWith("@cr2@")) {
+                        s1 = s1.substring(5);
+                        data = 2;
+                    } else if (s1 != null && s1.startsWith("@cr3@")) {
+                        s1 = s1.substring(5);
+                        data = 3;
+                    }
+                    if (chatType == 0) {
+                        if (chatTypeView == 5 || chatTypeView == 0) {
+                            newRegularFont.drawBasicString(chatMessages[k], 11, yPos + yOffset,
+                                    changeChatArea ? 0xFFFFFF : 0, shadow);
+                            j++;
+                            j77++;
+                        }
+                    }
+                    if ((chatType == 1 || chatType == 2)
+                            && (chatType == 1 || publicChatMode == 0 || publicChatMode == 1 && isFriendOrSelf(s1))) {
+                        if (chatTypeView == 1 || chatTypeView == 0) {
+                            int xPos = 11;
+                            if (data == 1) {
+                                modIcons[0].drawSprite(xPos + 1, yPos - 12 + yOffset);
+                                xPos += 14;
+                            } else if (data == 2) {
+                                modIcons[1].drawSprite(xPos + 1, yPos - 12 + yOffset);
+                                xPos += 14;
+                            } else if (data == 3) {
+                                modIcons[2].drawSprite(xPos + 1, yPos - 12 + yOffset);
+                                xPos += 14;
+                            }
+                            newRegularFont.drawBasicString(s1 + ":", xPos, yPos + yOffset,
+                                    changeChatArea ? 0xFFFFFF : 0, shadow);
+                            xPos += font.getTextWidth(s1) + 8;
+                            newRegularFont.drawBasicString(chatMessages[k], xPos, yPos + yOffset,
+                                    changeChatArea ? 0x7FA9FF : 255, shadow);
+                            j++;
+                            j77++;
+                        }
+                    }
+                    if ((chatType == 3 || chatType == 7) && (splitPrivateChat == 0 || chatTypeView == 2)
+                            && (chatType == 7 || privateChatMode == 0 || privateChatMode == 1 && isFriendOrSelf(s1))) {
+                        if (chatTypeView == 2 || chatTypeView == 0) {
+                            int k1 = 11;
+                            newRegularFont.drawBasicString("From", k1, yPos + yOffset, changeChatArea ? 0 : 0xFFFFFF,
+                                    shadow);
+                            k1 += font.getTextWidth("From ");
+                            if (data == 1) {
+                                modIcons[0].drawSprite(k1, yPos - 12 + yOffset);
+                                k1 += 12;
+                            } else if (data == 2) {
+                                modIcons[1].drawSprite(k1, yPos - 12 + yOffset);
+                                k1 += 12;
+                            } else if (data == 3) {
+                                modIcons[2].drawSprite(k1, yPos - 12 + yOffset);
+                                k1 += 12;
+                            }
+                            newRegularFont.drawBasicString(s1 + ":", k1, yPos + yOffset, changeChatArea ? 0xFFFFFF : 0,
+                                    shadow);
+                            k1 += font.getTextWidth(s1) + 8;
+                            newRegularFont.drawBasicString(chatMessages[k], k1, yPos + yOffset, 0x800080, shadow);
+                            j++;
+                            j77++;
+                        }
+                    }
+                    if (chatType == 4 && (tradeMode == 0 || tradeMode == 1 && isFriendOrSelf(s1))) {
+                        if (chatTypeView == 3 || chatTypeView == 0) {
+                            newRegularFont.drawBasicString(s1 + " " + chatMessages[k], 11, yPos + yOffset, 0x800080,
+                                    shadow);
+                            j++;
+                            j77++;
+                        }
+                    }
+                    if (chatType == 5 && splitPrivateChat == 0 && privateChatMode < 2) {
+                        if (chatTypeView == 2 || chatTypeView == 0) {
+                            newRegularFont.drawBasicString(s1 + " " + chatMessages[k], 11, yPos + yOffset, 0x800080,
+                                    shadow);
+                            j++;
+                            j77++;
+                        }
+                    }
+                    if (chatType == 6 && (splitPrivateChat == 0 || chatTypeView == 2) && privateChatMode < 2) {
+                        if (chatTypeView == 2 || chatTypeView == 0) {
+                            newRegularFont.drawBasicString("To " + s1 + ":", 11, yPos + yOffset,
+                                    changeChatArea ? 0xFFFFFF : 0, shadow);
+                            newRegularFont.drawBasicString(chatMessages[k], 15 + font.getTextWidth("To :" + s1),
+                                    yPos + yOffset, 0x800080, shadow);
+                            j++;
+                            j77++;
+                        }
+                    }
+                    if (chatType == 8 && (tradeMode == 0 || tradeMode == 1 && isFriendOrSelf(s1))) {
+                        if (chatTypeView == 3 || chatTypeView == 0) {
+                            newRegularFont.drawBasicString(s1 + " " + chatMessages[k], 11, yPos + yOffset, 0x7e3200,
+                                    shadow);
+                            j++;
+                            j77++;
+                        }
+                        if (chatType == 11 && (clanChatMode == 0)) {
+                            if (chatTypeView == 11) {
+                                newRegularFont.drawBasicString(s1 + " " + chatMessages[k], 11, yPos + yOffset, 0x7e3200,
+                                        shadow);
+                                j++;
+                                j77++;
+                            }
+                            if (chatType == 12) {
+                                newRegularFont.drawBasicString(chatMessages[k] + "", 11, yPos + yOffset, 0x7e3200,
+                                        shadow);
+                                j++;
+                                j77++;
+                            }
+                        }
+                    }
+                    if (chatType == 16) {
+                        int j2 = 40;
+                        int clanNameWidth = font.getTextWidth(clanname);
+                        if (chatTypeView == 11 || chatTypeView == 0) {
+                            switch (chatRights[k]) {
+                                case 1:
+                                    j2 += clanNameWidth;
+                                    modIcons[0].drawSprite(j2 - 18, yPos - 12 + yOffset);
+                                    j2 += 14;
+                                    break;
+                                case 3:
+                                case 2:
+                                    j2 += clanNameWidth;
+                                    modIcons[1].drawSprite(j2 - 18, yPos - 12 + yOffset);
+                                    j2 += 14;
+                                    break;
+
+                                default:
+                                    j2 += clanNameWidth;
+                                    break;
+                            }
+                            newRegularFont.drawBasicString("[", 8, yPos + yOffset, changeChatArea ? 0xFFFFFF : 0,
+                                    shadow);
+                            newRegularFont.drawBasicString(clanname, 14, yPos + yOffset,
+                                    changeChatArea ? 0x7FA9FF : 255, shadow);
+                            newRegularFont.drawBasicString("]", clanNameWidth + 14, yPos + yOffset,
+                                    changeChatArea ? 0xFFFFFF : 0, shadow);
+                            newRegularFont.drawBasicString(chatNames[k] + ":", j2 - 17, yPos + yOffset,
+                                    changeChatArea ? 0xFFFFFF : 0, shadow);
+                            j2 += font.getTextWidth(chatNames[k]) + 7;
+                            newRegularFont.drawBasicString(chatMessages[k], j2 - 16, yPos + yOffset, 0x800080, shadow);
+                            j++;
+                            j77++;
+                        }
+                    }
+                }
+            }
+            Rasterizer2D.defaultDrawingAreaSize();
+            anInt1211 = j * 14 + 7 + 4;
+            if (anInt1211 < 111) {
+                anInt1211 = 111;
+            }
+
+            drawScrollbar(114, anInt1211 - anInt1089 - 113, 7 + yOffset, 496, anInt1211, changeChatArea);
+            String s;
+            if (localPlayer != null && localPlayer.name != null) {
+                s = localPlayer.name;
+            } else {
+                s = StringUtils.formatUsername(capitalize(myUsername));
+            }
+            Rasterizer2D.setDrawingArea(128 + yOffset, 8, 509, 105 + yOffset);
+            int xOffset = 0;
+            if (myPrivilege > 0) {
+                modIcons[myPrivilege - 1].drawSprite(10, 118 + yOffset);
+                xOffset += 14;
+            }
+            //oint y = 133;
+            newRegularFont.drawBasicString(s + ":", xOffset + 11, 117 + yOffset, changeChatArea ? 0xFFFFFF : 0, shadow);
+            newRegularFont.drawBasicString(inputString + "*", xOffset + 12 + font.getTextWidth(s + ": "), 117 + yOffset,
+                    changeChatArea ? 0x7FA9FF : 255, shadow);
+            Rasterizer2D.drawHorizontalLine(7, 105 + yOffset, 506, changeChatArea ? 0x575757 : 0x807660);
             Rasterizer2D.defaultDrawingAreaSize();
         }
         if (menuOpen) {
@@ -4752,7 +5043,7 @@ public class Client extends GameApplet {
         //First: 0 button: 0 action: 412 clicked: 777 actionText: Attack @yel@Man@gr1@ (level-2)
         if(menuAction != null) {
             first = menuAction.getMouseX();
-            button = menuAction.getMouseX();
+            button = menuAction.getMouseY();
             action = menuAction.getActionId();
             clicked = menuAction.getHash();
         } else {
@@ -5831,7 +6122,7 @@ public class Client extends GameApplet {
                     promptInput = "";
                     friendsListAction = 3;
                     aLong953 = friendsListAsLongs[resultIndex];
-                    aString1121 = "Enter defaultText to send to " + friendsList[resultIndex];
+                    aString1121 = "Enter text to send to " + friendsList[resultIndex];
                 }
             }
         }
@@ -6586,12 +6877,17 @@ public class Client extends GameApplet {
 
                         if (inputString.equals("::osrs")) {
                             Configuration.OSRS_GAMEFRAME = true;
+                            Configuration.enableOrbs = true;
                             drawRedStones();
                             drawSideIcons();
                             drawTabArea();
                         }
-                        if (inputString.equals("::06")) {
+                        if (inputString.equals("::06") || inputString.equalsIgnoreCase("::2006")) {
+                            if(frameMode != ScreenMode.FIXED) {
+                               frameMode(ScreenMode.FIXED);
+                            }
                             Configuration.OSRS_GAMEFRAME = false;
+                            Configuration.enableOrbs = false;
                             drawRedStones();
                             drawSideIcons();
                             drawTabArea();
@@ -7735,7 +8031,56 @@ public class Client extends GameApplet {
         }
     }
 
-    public void rightClickChatButtons() {
+    private void rightClickChatButtons() {
+        if(Configuration.OSRS_GAMEFRAME) {
+            rightClickOSRSButtons();
+        } else {
+            rightClickRedoneButtons();
+        }
+    }
+
+    public void rightClickRedoneButtons() {
+        if (mouseY >= 470 && mouseY <= frameHeight) {
+           if (super.mouseX >= 5 && super.mouseX <= 101) {
+                menuActionText[1] = "Hide public";
+                menuActionTypes[1] = 997;
+                menuActionText[2] = "Off public";
+                menuActionTypes[2] = 996;
+                menuActionText[3] = "Friends public";
+                menuActionTypes[3] = 995;
+                menuActionText[4] = "On public";
+                menuActionTypes[4] = 994;
+                menuActionText[5] = "View public";
+                menuActionTypes[5] = 993;
+                menuActionRow = 6;
+            } else if (super.mouseX >= 140 && super.mouseX <= 228) {
+                menuActionText[1] = "Off private";
+                menuActionTypes[1] = 992;
+                menuActionText[2] = "Friends private";
+                menuActionTypes[2] = 991;
+                menuActionText[3] = "On private";
+                menuActionTypes[3] = 990;
+                menuActionText[4] = "View private";
+                menuActionTypes[4] = 989;
+                menuActionRow = 5;
+            } else if (super.mouseX >= 281 && super.mouseX <= 370) {
+                menuActionText[1] = "Off trade";
+                menuActionTypes[1] = 987;
+                menuActionText[2] = "Friends trade";
+                menuActionTypes[2] = 986;
+                menuActionText[3] = "On trade";
+                menuActionTypes[3] = 985;
+                menuActionText[4] = "View trade";
+                menuActionTypes[4] = 984;
+                menuActionRow = 5;
+            } else if (super.mouseX >= 417 && super.mouseX <= 505) {
+                menuActionText[1] = "Report Abuse";
+                menuActionTypes[1] = 606;
+                menuActionRow = 2;
+            }
+        }
+    }
+    public void rightClickOSRSButtons() {
         if (mouseY >= frameHeight - 22 && mouseY <= frameHeight) {
             if (super.mouseX >= 5 && super.mouseX <= 61) {
                 menuActionText[1] = "View All";
@@ -8110,6 +8455,7 @@ public class Client extends GameApplet {
                 return;
             }
             if (response == 3) {
+                loginScreenCursorPos = 0;
                 firstLoginMessage = "";
                 secondLoginMessage = "Invalid username or password.";
                 return;
@@ -8120,6 +8466,7 @@ public class Client extends GameApplet {
                 return;
             }
             if (response == 5) {
+                loginScreenCursorPos = 0;
                 firstLoginMessage = "Your account is already logged in.";
                 secondLoginMessage = "Try again in 60 secs...";
                 return;
@@ -8824,6 +9171,7 @@ public class Client extends GameApplet {
             RSFont.unpackImages(modIcons, clanIcons);
             multiOverlay = new Sprite(mediaArchive, "overlay_multiway", 0);
             mapBack = new IndexedImage(mediaArchive, "mapback", 0);
+            chatBack = new IndexedImage(mediaArchive, "chatback", 0);
             for (int j3 = 0; j3 <= 14; j3++)
                 sideIcons[j3] = new Sprite(mediaArchive, "sideicons", j3);
             compass = new Sprite(mediaArchive, "compass", 0);
@@ -12150,7 +12498,11 @@ public class Client extends GameApplet {
                     if (l1 == 8 && myPassword.length() > 0)
                         myPassword = myPassword.substring(0, myPassword.length() - 1);
                     if (l1 == 9 || l1 == 10 || l1 == 13)
-                        loginScreenCursorPos = 0;
+                        if(myUsername == "" || myPassword == "") {
+                            loginScreenCursorPos = 0;
+                        } else {
+                            login(myUsername, myPassword, false);
+                        }
                     if (flag1)
                         myPassword += (char) l1;
                     if (myPassword.length() > 20)
