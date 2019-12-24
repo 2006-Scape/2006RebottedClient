@@ -1,2 +1,6 @@
 # Project exclude paths
 /target/
+.idea/
+.idea/workspace.xml
+**/.idea/workspace.xml
+**/.idea/*
