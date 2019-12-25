@@ -8,34 +8,18 @@ If you want to play the server, check out [2006rebotted.tk](https://2006rebotted
 
 Step 1: Register a GitHub account
 
-Step 2 (Windows users): Install Git Bash: https://git-scm.com/downloads
+Step 2: [Fork this repository](https://i.imgur.com/PoMTxZj.png)
 
-Step 3: Install IntelliJ Community Edition: https://www.jetbrains.com/idea/download/
+Step 3: Open IntelliJ and click "File > New > New Project from Version Control"
 
-Step 4: Install Java 8 from https://adoptopenjdk.net
+Step 4: Enter the URL of your forked Github repository, and hit "Clone" ([Image](https://i.imgur.com/5dtyoZU.png))
 
-Step 4: [Fork this repository](https://i.imgur.com/PoMTxZj.png)
+Step 5: Right click `pom.xml`, select `Maven` and click `Reimport` ([Image](https://i.imgur.com/FhT025V.png))
 
-Step 5: Open Git Bash and type `git clone <YOUR_FORK_URL>` ([Example](https://i.imgur.com/Hs1upNf.png)) 
+Step 6: Click "Run Core" [Image](https://i.imgur.com/c8hxMx0.png)
 
-Step 6: In Git Bash, type `cd 2006RebottedClient`
+# How to get your code onto this project page
 
-Step 7: In Git Bash, type `git remote add upstream https://github.com/dginovker/2006RebottedClient`
+Follow this guide here: [https://www.jetbrains.com/help/idea/contribute-to-projects.html](https://www.jetbrains.com/help/idea/contribute-to-projects.html)
 
-Step 8: In Git Bash, type `git checkout -b my-development`
-
-Step 9: Open IntelliJ and click "Open" on the Right-Hand panel
-
-Step 10: Find where you "Cloned" the code to in Git Bash. If you can't find it, type `pwd` in Git Bash to help ([Image](https://i.imgur.com/YvVFtmW.png))
-
-Step 11: Click this button if your code structure is not visible: https://i.imgur.com/bxXvoKv.png
-
-Step 12: Click File -> Project Structure
-
-Step 13: Set Project SDK to 1.8, Project Language Level to 8, & Project Compiler Output to any valid folder [Image](https://i.imgur.com/9PJDk0Q.png)
-
-Step 14: Hit OK in the project structure screen 
-
-Step 15: Right click `pom.xml`, select `Maven` and click `Reimport` ([Image](https://i.imgur.com/FhT025V.png))
-
-Step 16: Click "Run Core" [Image](https://i.imgur.com/c8hxMx0.png)
+A more formal guide will be created on the 2006rebotted forums in the future.
