@@ -10,16 +10,16 @@ Step 1: Register a GitHub account
 
 Step 2: [Fork this repository](https://i.imgur.com/PoMTxZj.png)
 
-Step 3: Open IntelliJ and click "File > New > New Project from Version Control"
+Step 3: Install IntelliJ Community Edition: https://www.jetbrains.com/idea/download/
 
-Step 4: Enter the URL of your forked Github repository, and hit "Clone" ([Image](https://i.imgur.com/5dtyoZU.png))
+Step 4: Open IntelliJ and click "File > New > New Project from Version Control"
 
-Step 5: Right click `pom.xml`, select `Maven` and click `Reimport` ([Image](https://i.imgur.com/FhT025V.png))
+Step 5: Enter the URL of your forked Github repository, and hit "Clone" ([Image](https://i.imgur.com/5dtyoZU.png))
 
-Step 6: Click "Run Core" [Image](https://i.imgur.com/c8hxMx0.png)
+Step 6: Right click `pom.xml`, select `Maven` and click `Reimport` ([Image](https://i.imgur.com/FhT025V.png))
 
-# How to get your code onto this project page
+Step 7: Click "Run Core" ([Image](https://i.imgur.com/c8hxMx0.png))
 
-Follow this guide here: [https://www.jetbrains.com/help/idea/contribute-to-projects.html](https://www.jetbrains.com/help/idea/contribute-to-projects.html)
+## How to get your code onto this project page
 
-A more formal guide will be created on the 2006rebotted forums in the future.
+See this [forum post](https://2006rebotted.tk/forums/viewthread.php?forum=5&id=78).
