@@ -20,6 +20,12 @@ Step 6: Right click `pom.xml`, select `Maven` and click `Reimport` ([Image](http
 
 Step 7: Click "Run Core" ([Image](https://i.imgur.com/c8hxMx0.png))
 
+## How to Write Scripts for the 2006Rebotted 2.0 Client
+
+The API for the client is available at [Github.com/dginovker/RebottedAPI](https://github.com/dginovker/RebottedAPI)
+
+To write scripts, download the latest API and compile both it and this client into a .jar. Import them as libraries to your Java project, and write it like you would write a [Parabot script](https://www.parabot.org/community/topic/4567-parabot-script-writing-for-dummies-part-1/)
+
 ## How to get your code onto this project page
 
 See this [forum post](https://2006rebotted.tk/forums/viewthread.php?forum=5&id=78).
